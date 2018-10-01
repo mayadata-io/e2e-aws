@@ -2,6 +2,7 @@ stages:
   - cluster-setup
   - infra-setup
   - stateful-apps-deploy
+  - load-generation
   - chaos-test
   - cleanup
   - deploy
@@ -102,6 +103,19 @@ jenkins-jiva:
   artifacts:
     paths:
       - aws-openebs/
+
+percona-load-generation:
+  image: atulabhi/kops:v8
+  stage: load-generation
+  dependencies:
+    - percona-jiva
+  script:
+   - chmod 755 ./script/percona-loadgen
+   - ./script/percona-loadgen
+
+  artifacts:
+    paths:
+      - aws-deploy
 
 Litmus-Chaos:
   image: atulabhi/kops:v8
