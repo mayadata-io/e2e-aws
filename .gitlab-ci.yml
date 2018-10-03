@@ -2,7 +2,7 @@ stages:
   - cluster-setup
   - infra-setup
   - stateful-apps-deploy
-  - load-generation
+  - apps-loadgen
   - chaos-test
   - cleanup
   - deploy
@@ -46,15 +46,15 @@ percona-jiva:
     paths:
       - aws-openebs/
 
-mongo-jiva:
+mongodb-jiva:
   image: atulabhi/kops:v8
   stage: stateful-apps-deploy
   dependencies:
     - openebs-aws-deploy
   script: 
    #- echo "jobs-AWS-Started"
-   - chmod 775 ./script/mongo-app-deploy
-   - ./script/mongo-app-deploy
+   - chmod 775 ./script/mongodb-app-deploy
+   - ./script/mongodb-app-deploy
 
   artifacts:
     paths:
@@ -74,7 +74,6 @@ postgres-jiva:
     paths:
       - aws-openebs/
 
-
 cassandra-jiva:
   image: atulabhi/kops:v8
   stage: stateful-apps-deploy
@@ -88,7 +87,6 @@ cassandra-jiva:
   artifacts:
     paths:
       - aws-openebs/
-
 
 jenkins-jiva:
   image: atulabhi/kops:v8
@@ -104,14 +102,40 @@ jenkins-jiva:
     paths:
       - aws-openebs/
 
-percona-load-generation:
+percona-loadgen:
   image: atulabhi/kops:v8
-  stage: load-generation
+  stage: apps-loadgen
   dependencies:
     - percona-jiva
   script:
    - chmod 755 ./script/percona-loadgen
    - ./script/percona-loadgen
+
+  artifacts:
+    paths:
+      - aws-deploy
+
+cassandra-loadgen:
+  image: atulabhi/kops:v8
+  stage: apps-loadgen
+  dependencies:
+    - cassandra-jiva
+  script:
+    - chmod 755 ./script/cassandra-loadgen
+    - ./script/cassandra-loadgen
+
+  artifacts:
+    paths:
+      - aws-deploy
+
+mongodb-loadgen:
+  image: atulabhi/kops:v8
+  stage: apps-loadgen
+  dependencies:
+    - mongodb-jiva
+  script:
+    - chmod 755 ./script/mongodb-loadgen
+    - ./script/mongodb-loadgen
 
   artifacts:
     paths:

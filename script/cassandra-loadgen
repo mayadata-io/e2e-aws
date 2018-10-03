@@ -8,8 +8,8 @@ set -x
 ## TODO: Ideally, run_metadata should be passed as gitlab runner (CI runtime) ENV
 run_metadata=""
 
-## https://github.com/openebs/litmus/blob/master/apps/percona/deployers/test_vars.yml
-test_name="percona-loadgen"
+## https://github.com/openebs/litmus/blob/master/apps/cassandra/deployers/test_vars.yml
+test_name="cassandra-loadgen" 
 
 if [[ -n "$run_metadata" ]]; then
   test_name="$test_name-$run_metadata"
@@ -38,21 +38,19 @@ printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' "%"
 ###################
 ## DEPENDENCIES  ##
 ###################
-
 ## Derive the kubeconfig of the AWS based K8s cluster into the gitlab job runner pod
-## "aws-openebs" is a shared path for the gitlab runner passed as artifact by gitlab 
 
 echo "Setting up test dependencies.."
- 
+
 mkdir ~/.kube
 cp  aws-openebs/config ~/.kube/config
 cp -r aws-openebs/ssh/. ~/.ssh/
+
 
 ## Clone the litmus repo, checkout the e2e branch, navigate to litmus root 
 
 #git clone https://github.com/atulabhi/litmus.git
 #cd litmus; git checkout v0.7-RC1
-
 git clone https://github.com/dargasudarshan/litmus.git
 cd litmus; git checkout load
 
@@ -71,13 +69,14 @@ task_delimiter;
 
 echo "Running the litmus test.."
 
-## Create the litmus job for percona app deploy
+## Create the litmus job for cassandra loadgen
 
-jobNameCmd="kubectl get jobs -n litmus --no-headers -o jsonpath='{.items[?(@.metadata.labels.loadgen==\"percona-loadjob\")].metadata.name}'"
+jobNameCmd="kubectl get jobs -n litmus --no-headers -o jsonpath='{.items[?(@.metadata.labels.loadgen==\"cassandra-loadjob\")].metadata.name}'"
 
-job_deploy_out=$(kubectl create -f apps/percona/workload/run_litmus_test.yml) && \
+job_deploy_out=$(kubectl create -f apps/cassandra/workload/run_litmus_test.yml) && \
 job_name=$(eval $jobNameCmd); retcode=$?
 error_handler $retcode msg="Unable to run litmusbook, exiting" action="exit"
+
 
 ## Obtain the litmus pod name 
 
