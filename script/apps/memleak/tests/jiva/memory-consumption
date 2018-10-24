@@ -73,7 +73,9 @@ echo "Running the litmus test.."
 
 ## Create the litmus job for fio data integrity test 
 
-jobNameCmd="kubectl get jobs -n litmus --no-headers -o jsonpath='{.items[?(@.metadata.labels.app==\"fio-di-litmus\")].metadata.name}'"
+
+jobNameCmd="kubectl get jobs -n litmus --no-headers -o jsonpath='{.items[?(@.metadata.labels.app==\"memleak-test\")].metadata.name}'"
+
 
 job_deploy_out=$(kubectl create -f apps/memleak/tests/run_litmus_test.yml) && \
 job_name=$(eval $jobNameCmd); retcode=$?
