@@ -177,6 +177,11 @@ app-upgrade-deployment-{jenkins-jiva}:
   script:
    - ./script/apps/jenkins/functional/jiva/app-upgrade-deployment
 
+k8s-snapshot-clone-creation-{snapshot-clone-jiva}:
+  extends: .func_test_template
+  script:
+   - ./script/apps/percona/functional/jiva/k8s-snapshot-clone
+
 volume-data-integrity-{fio-jiva}:
   extends: .func_test_template 
   script:
@@ -262,8 +267,7 @@ tgt-disconnect-{mongo-cstor}:
 .app_deprovision_template:
   image: atulabhi/kops:v8
   stage: APP-DEPROVISION
-  dependencies:
-    - openebs-aws-deploy
+  when: always
   artifacts:
     paths: 
       - aws-openebs/
