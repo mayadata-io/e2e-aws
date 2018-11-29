@@ -75,11 +75,19 @@ percona-jiva-run/load/check 1:2:
   script: 
    - ./script/apps/percona/workload/jiva/percona-app-workload-jiva
 
+
 # PROMETHEUS-CSTOR
 prometheus-cstor-run/load/check:
   extends: .app_deploy_template
   script:
    - ./script/apps/prometheus/deployer/prometheus-app-deploy-cstor
+
+## PERCONA-JIVA-SINGLE-REPLICA
+percona-jiva-single-replica-run/load/check:
+  extends: .app_deploy_template
+  script:
+   - ./script/apps/percona/deployer/percona-deploy-jiva-single-replica
+
 
 ## MONGO-JIVA
 mongo-jiva-run/load/check 0:2:
