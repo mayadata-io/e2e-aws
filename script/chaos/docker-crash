@@ -29,7 +29,7 @@ cd litmus
   ---------------------------------------------------------------------------------------------
  | specAttribute        | kind	   | jiva       	      | cStor-sparse  	               |
   ---------------------------------------------------------------------------------------------
- | litmusJobLabel       | jobSpec  | node-failure-drain       | node-failure-drain-cstor       |
+ | litmusJobLabel       | jobSpec  | openebs-app-svc-chaos    | openebs-app-svc-chaos          |
  | appNamespace         | env	   | app-percona-ns           | percona-cstor                  |
  | runID		| env(add) | 	-		      | cstor                          |
  | livenessLabel        | env      | liveness=percona-liveness| liveness=percona-liveness-cstor|
