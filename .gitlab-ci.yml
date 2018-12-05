@@ -9,6 +9,7 @@ stages:
   - NODE-MAINTENANCE-DRAIN
   - NODE-LOSS-EVICT
   - STORAGE-POOL-FAILURE
+  - SERVICE-CRASH
   - CLUSTER-CLEANUP
 
 variables: 
@@ -101,6 +102,12 @@ storage-pool-failure 1:2:
   extends: .chaos_test_template #dependencies: percona-cstor
   script:
    - ./script/chaos/cstor-pool-pod-kill
+
+docker-crash:
+  stage: SERVICE-CRASH
+  extends: .chaos_test_template #dependencies: percona-cstor
+  script:
+   - ./script/chaos/docker-crash
 
 cleanup-aws:
   when: always
