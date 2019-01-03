@@ -154,10 +154,10 @@ mongo-cstor-run/load/check 1:2:
    - ./script/apps/mongo/workload/cstor/mongo-app-workload-cstor
 
 # NUODB-CSTOR
-nuodb-cstor-run/load:
-  extends: .app_deploy_template
-  script: 
-   - ./script/apps/nuodb/deployer/nuodb-app-deploy-cstor
+#nuodb-cstor-run/load:
+#  extends: .app_deploy_template
+#  script: 
+#   - ./script/apps/nuodb/deployer/nuodb-app-deploy-cstor
 
 # CASSANDRA_CSTOR
 cassandra-cstor-run/load/check 0:2:
