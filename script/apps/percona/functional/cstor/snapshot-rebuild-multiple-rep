@@ -19,6 +19,20 @@ ${utils_path}/setup_dependencies litmus-test
 git clone https://github.com/openebs/litmus.git
 cd litmus
 
+sleep 180;
+containerStateCmd="kubectl get pod -n litmus -l app=k8s-snap-single-rep-rebuild -o custom-columns=:.status.containerStatuses[].state..reason --no-headers"
+while true; do
+  cstate=$(eval ${containerStateCmd}); rc=$?
+  if [[ $rc -eq 0 && ! -z $cstate ]]; then
+    if [[ ! $cstate =~ 'Completed' ]]; then
+      sleep 1
+    else break;
+    fi
+  else
+    echo "unable to get litmus container status for snap rebuild single replica"; exit 1
+  fi
+done
+
 ############################
 ## LITMUS PRECONDITIONING ##
 ############################
