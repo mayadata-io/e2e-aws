@@ -11,11 +11,13 @@ export AWS_SECRET_ACCESS_KEY=$AC_KEY
 export AWS_DEFAULT_REGION=eu-west-2
 export AWS_DEFAULT_OUTPUT=json
 
+path=$(pwd)
+
 # ---- Creating Directory and storing necessary data inside it --------------------
 mkdir /tmp/aws
-cat aws/cluster/id.csv > /tmp/aws/id.csv
-cat aws/cluster/cluster_name.csv >/tmp/aws/cluster_name.csv
-cat aws/cluster/volume-id >/tmp/aws/volume-id
+cat $path/aws/cluster/id.csv > /tmp/aws/id.csv
+cat $path/aws/cluster/cluster_name.csv > /tmp/aws/cluster_name.csv
+cat $path/aws/cluster/volume-id > /tmp/aws/volume-id
 
 aws_cluster_name=$(cat /tmp/aws/cluster_name.csv | cut -d ":" -f 2); echo ${aws_cluster_name}
 
