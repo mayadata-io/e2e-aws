@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
-
+path=$(pwd)
 # ----------------------------- Creating directory ---------------------
-mkdir ~/.aws aws aws/cluster aws/ssh aws/.kube cluster && cd cluster
+mkdir ~/.aws $path/aws $path/aws/cluster $path/aws/ssh $path/aws/.kube $path/cluster && cd $path/cluster
 
 # ----------------------------- Setting AWS credentials ----------------
 echo $CONFIG > ~/.aws/config
@@ -32,20 +32,20 @@ wget https://raw.githubusercontent.com/openebs/litmus/master/hack/rbac.yaml
 kubectl apply -f rbac.yaml
 
 # --------------------- Preparing for gitlab artifact ------------------
-cat /tmp/aws/cluster_name.csv >/openebs/e2e-aws/aws/cluster/cluster_name.csv
-cat /tmp/aws/id.csv > /openebs/e2e-aws/aws/cluster/id.csv
-cat /tmp/aws/node_property > /openebs/e2e-aws/aws/cluster/node_property
+cat /tmp/aws/cluster_name.csv > $path/aws/cluster/cluster_name.csv
+cat /tmp/aws/id.csv > $path/aws/cluster/id.csv
+cat /tmp/aws/node_property > $path/aws/cluster/node_property
 # mkdir /openebs/e2e-aws/aws/.kube
-cat ~/.kube/config > /openebs/e2e-aws/aws/.kube/admin.conf
-cat ~/.kube/config > /openebs/e2e-aws/aws/.kube/config
-cp -r ~/.ssh/. /openebs/e2e-aws/aws/ssh
+cat ~/.kube/config > $path/aws/.kube/admin.conf
+cat ~/.kube/config > $path/aws/.kube/config
+cp -r ~/.ssh/. $path/aws/ssh
 
 # -------------------------- Applying configmap -------------------------
-kubectl create configmap kubeconfig --from-file=/openebs/e2e-aws/aws/.kube/admin.conf -n litmus
+kubectl create configmap kubeconfig --from-file=$path/aws/.kube/admin.conf -n litmus
 
 # -------------------------- Attach Disks -------------------------------
 aws_cluster_name=$(cat /tmp/aws/cluster_name.csv | cut -d ":" -f 2); echo ${aws_cluster_name}
 cd ../ebs-volumes
 ansible-playbook create-ebs-volume.yml --extra-vars "cluster_name=nodes.k8s-${aws_cluster_name}.k8s.local" -vv
-cat /tmp/aws/volume-id > /openebs/e2e-aws/aws/cluster/volume-id
+cat /tmp/aws/volume-id > $path/aws/cluster/volume-id
 cat /tmp/aws/volume-id

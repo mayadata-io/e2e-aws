@@ -6,30 +6,32 @@ set -x
 
 derive_cluster_details_infra()
 {
- 
+
+ path=$(pwd)       	
  ## 'aws' folder is updated/filled with data from cluster create playbook
  ## and passed as artifact to openebs infra-setup gitlab pod
 
  ## Get kubeconfig file into infra-setup gitlab runner pod
  mkdir ~/.kube;
- cp aws/.kube/config ~/.kube/config 
+ cp $path/aws/.kube/config ~/.kube/config 
 
  ## Transfer cluster config & physical details into 'aws-openebs'
- mkdir -p aws-openebs/ssh
- cat aws/cluster/id.csv > aws-openebs/id.csv
- cat aws/cluster/cluster_name.csv > aws-openebs/cluster_name.csv
+ mkdir -p $path/aws-openebs/ssh
+ cat $path/aws/cluster/id.csv > $path/aws-openebs/id.csv
+ cat $path/aws/cluster/cluster_name.csv > $path/aws-openebs/cluster_name.csv
 
  ## TODO: Add this as a conditional step in master utils
- cat aws/cluster/node_property > aws-openebs/node_property
+ cat $path/aws/cluster/node_property > $path/aws-openebs/node_property
 
- cp aws/.kube/config aws-openebs/
+ cp $path/aws/.kube/config $path/aws-openebs/
 }
  
 setup_cluster_config_test()
 {
+ path=$(pwd)
  mkdir ~/.kube
- cp  aws-openebs/config ~/.kube/config
- cp -r aws-openebs/ssh/. ~/.ssh/
+ cp  $path/aws-openebs/config ~/.kube/config
+ cp -r $path/aws-openebs/ssh/. ~/.ssh/
 
  ## TODO: Add this as a conditional step in master utils 
  #export LITMUS_NODE=$(cat aws-openebs/node_property | cut -d "," -f 1 | awk '{print $2}')
