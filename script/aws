@@ -22,7 +22,7 @@ cd e2e-tests/k8s/aws/k8s-installer
 echo "creating pre-requisite"
 
 sed -i -e 's/region: eu-west-2/region: eu-central-1/g' \
--e 's/image: ami-6b3fd60c/image: ami-03d8059563982d7b0'
+-e 's/image: ami-6b3fd60c/image: ami-03d8059563982d7b0/g' \
 -e 's/zone: eu-west-2a/zone: eu-central-1a/g' vars.yml
 
 ansible-playbook pre-requisite.yml -v
