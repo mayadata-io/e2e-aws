@@ -28,8 +28,6 @@ sed -i -e 's/region: eu-west-2/region: eu-central-1/g' \
 ansible-playbook pre-requisite.yml -v
 
 # ----------------------------- Creating AWS Cluster -------------------
-sed -i -e 's/region: eu-west-2/region: eu-central-1/g' \
--e 's/zone: eu-west-2a/zone: eu-central-1a/g' vars.yml
 echo "creating  AWS cluster"
 ansible-playbook create-aws-cluster.yml --extra-vars "k8s_version=1.16.9" -v
 
@@ -52,6 +50,10 @@ kubectl create configmap kubeconfig --from-file=$path/aws/.kube/admin.conf -n li
 # -------------------------- Attach Disks -------------------------------
 aws_cluster_name=$(cat /tmp/aws/cluster_name.csv | cut -d ":" -f 2); echo ${aws_cluster_name}
 cd ../ebs-volumes
+
+sed -i -e 's/region: eu-west-2/region: eu-central-1/g' \
+-e 's/zone: eu-west-2a/zone: eu-central-1a/g' vars.yml
+
 ansible-playbook create-ebs-volume.yml --extra-vars "cluster_name=nodes.k8s-${aws_cluster_name}.k8s.local" -vv
 cat /tmp/aws/volume-id > $path/aws/cluster/volume-id
 cat /tmp/aws/volume-id
