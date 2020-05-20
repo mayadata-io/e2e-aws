@@ -17,7 +17,6 @@ aws configure set aws_secret_access_key $AWS_SECRET_KEY
 path=$(pwd)
 
 # ---- Creating Directory and storing necessary data inside it --------------------
-mkdir /tmp/aws
 cat $path/aws/cluster/id.csv > /tmp/aws/id.csv
 cat $path/aws/cluster/cluster_name.csv > /tmp/aws/cluster_name.csv
 cat $path/aws/cluster/volume-id > /tmp/aws/volume-id
@@ -29,6 +28,8 @@ git clone https://github.com/openebs/e2e-tests.git
 cd litmus/k8s/aws/k8s-installer
 
 # ---------------------- Deleting AWS cluster -------------------------------------
+sed -i -e 's/region: eu-west-2/region: eu-central-1/g' \
+-e 's/zone: eu-west-2a/zone: eu-central-1a/g' vars.yml
 ansible-playbook delete-aws-cluster.yml -v
 
 # ---------------------- Deleting AWS pre-requisite -------------------------------
