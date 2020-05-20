@@ -35,7 +35,7 @@ ansible-playbook create-aws-cluster.yml --extra-vars "k8s_version=1.16.9" -v
 wget https://raw.githubusercontent.com/openebs/e2e-tests/master/hack/rbac.yaml
 kubectl apply -f rbac.yaml
 wget https://raw.githubusercontent.com/openebs/e2e-tests/master/hack/crds.yaml
-kubectl apply -f crds.yml
+kubectl apply -f crds.yaml
 # --------------------- Preparing for gitlab artifact ------------------
 cat /tmp/aws/cluster_name.csv > $path/aws/cluster/cluster_name.csv
 cat /tmp/aws/id.csv > $path/aws/cluster/id.csv
