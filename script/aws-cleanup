@@ -25,7 +25,7 @@ aws_cluster_name=$(cat /tmp/aws/cluster_name.csv | cut -d ":" -f 2); echo ${aws_
 
 # ---- Cloning litmus repository for cleaning AWS cluster and pre-requisite--------
 git clone https://github.com/openebs/e2e-tests.git
-cd litmus/k8s/aws/k8s-installer
+cd e2e-tests/k8s/aws/k8s-installer
 
 # ---------------------- Deleting AWS cluster -------------------------------------
 sed -i -e 's/region: eu-west-2/region: eu-central-1/g' \
