@@ -256,4 +256,4 @@ cleanup-aws:
   stage: CLUSTER-CLEANUP
   script: 
     - chmod 755 ./script/6-cleanup/aws-cleanup
-    - ./script/aws-cleanup
+    - ./script/6-cleanup/aws-cleanup
