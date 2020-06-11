@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+kubernetes_version=$K8S_VERSION
+
 path=$(pwd)
 # ----------------------------- Creating directory ---------------------
 mkdir ~/.aws $path/aws $path/aws/cluster $path/aws/ssh $path/cluster && cd $path/cluster
@@ -29,7 +31,7 @@ ansible-playbook pre-requisite.yml -v
 
 # ----------------------------- Creating AWS Cluster -------------------
 echo "creating  AWS cluster"
-ansible-playbook create-aws-cluster.yml --extra-vars "k8s_version=1.16.9" -v
+ansible-playbook create-aws-cluster.yml --extra-vars "k8s_version=$kubernetes_version" -v
 
 # ------------------- Applying rbac.yml of litmus ---------------------
 wget https://raw.githubusercontent.com/openebs/e2e-tests/master/hack/rbac.yaml
