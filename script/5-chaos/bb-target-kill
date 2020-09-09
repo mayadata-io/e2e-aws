@@ -17,8 +17,6 @@ echo "Setting up test dependencies.."
 ${utils_path}/setup_dependencies litmus-test
 
 bash script/utils/e2e-cr jobname:bb-target-nw-delay jobphase:Waiting
-bash script/utils/e2e-cr jobname:bb-cstor-pool-kill jobphase:Waiting
-bash script/utils/e2e-cr jobname:bb-cstor-pool-delete jobphase:Waiting
 bash script/utils/e2e-cr jobname:bb-target-kill jobphase:Waiting
 bash script/utils/e2e-cr jobname:bb-target-kill jobphase:Running init_time:"$current_time" job_id:"$job_id" pipeline_id:"$pipeline_id" openebs_version:"$releaseTag"
 
@@ -35,6 +33,7 @@ sed -i -e 's/value: percona-mysql-claim/value: openebs-busybox/g' \
 -e 's/value: '\''name=percona'\''/value: '\''app=busybox-sts'\''/g' \
 -e 's/target-zrepl-kill/target-delete/g' \
 -e 's/name: target-failure/name: target-kill-configmap/g' \
+-e "/name: TARGET_AFFINITY_CHECK/{n;s/value: 'enable'/value: 'disable'/g}" \
 -e 's/value: app-percona-ns/value: bb-cstor-deployment/g' run_target_kill_test.yml
 
 sed -i '/command:/i \

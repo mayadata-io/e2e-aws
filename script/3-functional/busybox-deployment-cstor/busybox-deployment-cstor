@@ -28,7 +28,7 @@ git clone https://github.com/mayadata-io/litmus.git
 cd litmus
 cp apps/busybox/deployers/run_litmus_test.yml deploy_busybox_cstor.yml
 
-sed -i -e 's/value: openebs-cstor-sparse/value: openebs-cstor-disk/g' \
+sed -i -e 's/value: openebs-cstor-sparse/value: openebs-cstor-cspc-disk/g' \
 -e 's/value: statefulset/value: deployment/g' \
 -e 's/value: app-busybox-ns/value: bb-cstor-deployment/g' \
 -e 's/generateName: litmus-busybox-deploy-/generateName: busybox-deployment-cstor-/g' \

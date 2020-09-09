@@ -127,6 +127,8 @@ sed -i '/command:/i \
 ## Replace the value of DATA_PERSISTENCE with application name in litmus experiment.
 sed -i '/name: DATA_PERSISTENCE/{n;s/.*/            value: mysql/}' run_percona_target_nw_delay.yml
 
+sed -i '/name: TARGET_AFFINITY_CHECK/{n;s/.*/            value: /g}' run_percona_target_nw_delay.yml
+
 ## Insert the set of variables for busybox data consistency util into configmap spec.
 sed -i '/parameters.yml: |/a \
     dbuser: root \

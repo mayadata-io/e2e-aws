@@ -27,8 +27,8 @@ kubectl get pods -n openebs -o yaml | grep image | grep -v imageID | grep quay
 
 bash script/utils/e2e-cr jobname:upgrade-control-plane jobphase:Waiting
 bash script/utils/e2e-cr jobname:upgrade-control-plane jobphase:Running init_time:"$current_time" jobid:"$job_id" pipelineid:"$pipeline_id" openebs_version:"$releaseTag"
-bash script/utils/e2e-cr jobname:upgrade-jiva jobphase:Waiting
-bash script/utils/e2e-cr jobname:upgrade-cstor jobphase:Waiting
+bash script/utils/e2e-cr jobname:upgrade-cstor-csi jobphase:Waiting
+bash script/utils/e2e-cr jobname:upgrade-cstor-operator jobphase:Waiting
 
 test_name=$(bash script/utils/generate_test_name testcase=openebs-upgrade metadata="")
 echo $test_name

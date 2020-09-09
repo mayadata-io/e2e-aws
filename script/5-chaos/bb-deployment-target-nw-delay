@@ -125,6 +125,8 @@ sed -i -e 's/value: percona-mysql-claim/value: openebs-busybox/g' \
 ## Replace the value of DATA_PERSISTENCE with application name in litmus experiment.
 sed -i '/name: DATA_PERSISTENCE/{n;s/.*/            value: busybox/}' run_bb_target_nw_delay.yml
 
+sed -i '/name: TARGET_AFFINITY_CHECK/{n;s/.*/            value: /g}' run_bb_target_nw_delay.yml
+
 ## Insert the set of variables for busybox data consistency util into configmap spec.
 sed -i '/parameters.yml: |/a \
     blocksize: 4k \

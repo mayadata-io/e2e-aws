@@ -30,7 +30,7 @@ echo "Running the litmus test for percona Deployment..."
 cp apps/percona/deployers/run_litmus_test.yml percona_cstor.yml
 
 sed -i -e 's/app: percona-deployment/app: percona-deploy-cstor/g' \
--e 's/value: openebs-standard/value: openebs-cstor-disk/g' \
+-e 's/value: openebs-standard/value: openebs-cstor-cspc-disk/g' \
 -e 's/value: app-percona-ns/value: percona-cstor-ns/g' percona_cstor.yml
 
 sed -i '/command:/i \
