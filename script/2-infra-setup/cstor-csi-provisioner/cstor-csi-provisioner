@@ -7,6 +7,7 @@ commit_id=$CI_COMMIT_SHA
 releaseTag=$FROM_VERSION
 release_version=$CSPC_FROM_VERSION
 release_branch=$CSPC_FROM_BRANCH
+csi_ns=$CSI_NAMESPACE
 source ~/.profile
 gittoken=$(echo "$github_token")
 
@@ -33,6 +34,7 @@ cp providers/csi-provisioner/run_litmus_test.yml csi_operator.yml
 sed -i -e "/name: IMAGE_TAG/{n;s/.*/            value: ${releaseTag}/g}" \
 -e "/name: RELEASE_BRANCH/{n;s/.*/            value: ${release_branch}/g}" \
 -e "/name: NODE_OS/{n;s/.*/            value: 'ubuntu-16.04'/g}" \
+-e "/name: OPERATOR_NS/{n;s/.*/            value: ${csi_ns}/g}" \
 -e "/name: RELEASE_VERSION/{n;s/.*/            value: ${release_version}/g}" csi_operator.yml
 
 cat csi_operator.yml
