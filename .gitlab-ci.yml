@@ -127,8 +127,8 @@ upgrade-control-plane:
 upgrade-cstor-operator:
   extends: .upgrade_openebs
   script:
-    - chmod 775 ./script/4-upgrade-openebs/upgrade-cspc-cstor
-    - ./script/4-upgrade-openebs/upgrade-cspc-cstor
+    - chmod 775 ./script/4-upgrade-openebs/upgrade-cstor-operator
+    - ./script/4-upgrade-openebs/upgrade-cstor-operator
 
 upgrade-cspc-csi:
   extends: .upgrade_openebs
