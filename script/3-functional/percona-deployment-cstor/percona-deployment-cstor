@@ -40,6 +40,8 @@ sed -i '/command:/i \
             value: '"$run_id"'\
 ' deploy_percona_cstor.yml
 
+sed -i '/name: TARGET_AFFINITY_CHECK/{n;s/.*/            value: /g}' deploy_percona_cstor.yml
+
 cat deploy_percona_cstor.yml
 
 bash ../script/utils/litmus_job_runner label='app:percona-deployment-cstor' job=deploy_percona_cstor.yml
