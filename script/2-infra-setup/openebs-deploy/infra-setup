@@ -34,7 +34,6 @@ echo "*****Deploying openebs*******"
 bash script/utils/e2e-cr jobname:openebs-deploy jobphase:Waiting
 bash script/utils/e2e-cr jobname:cstor-operator jobphase:Waiting
 bash script/utils/e2e-cr jobname:cstor-cspc-striped-pool jobphase:Waiting
-bash script/utils/e2e-cr jobname:csi-provisioner jobphase:Waiting
 bash script/utils/e2e-cr jobname:openebs-deploy jobphase:Running init_time:"$current_time" jobid:"$job_id" pipelineid:"$pipeline_id" openebs_version:"$releaseTag"
 bash script/utils/e2e-cr jobname:policies jobphase:Waiting
 
