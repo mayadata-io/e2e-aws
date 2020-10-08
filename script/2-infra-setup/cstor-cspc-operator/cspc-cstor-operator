@@ -30,8 +30,10 @@ cd litmus
 # copy the content of deployer run_litmus_test.yml into a different file to update the test specific parameters.
 cp providers/cstor-operator/run_litmus_test.yml cstor_operator.yml
 
-sed -i -e "/name: CSTOR_OPERATOR_IMAGE/{n;s/.*/            value: ${releaseTag}/g}" \
+sed -i -e "/name: IMAGE_TAG/{n;s/.*/            value: ${releaseTag}/g}" \
 -e "/name: RELEASE_BRANCH/{n;s/.*/            value: ${release_branch}/g}" \
+-e "/name: CSI_NS/{n;s/.*/            value: ${csi_ns}/g}" \
+-e "/name: NODE_OS/{n;s/.*/            value: 'ubuntu-16.04'/g}" \
 -e "/name: RELEASE_VERSION/{n;s/.*/            value: ${release_version}/g}" cstor_operator.yml
 
 cat cstor_operator.yml

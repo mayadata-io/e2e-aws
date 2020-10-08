@@ -18,7 +18,7 @@ ${utils_path}/setup_dependencies infra-setup
 
 #pooling over previous job to complete
 echo "***********Applying openebs-storage-clas********"
-bash script/utils/pooling jobname:csi-provisioner
+bash script/utils/pooling jobname:cstor-cspc-striped-pool
 bash script/utils/e2e-cr jobname:policies jobphase:Waiting
 bash script/utils/e2e-cr jobname:policies jobphase:Running init_time:"$current_time" jobid:"$job_id" pipelineid:"$pipeline_id" openebs_version:"$releaseTag"
 
