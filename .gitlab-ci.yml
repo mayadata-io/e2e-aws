@@ -74,18 +74,6 @@ cstor-operator-deploy:
     paths:
       - aws-openebs/
 
-csi-provisioner:
-  image: harshshekhar15/gitlab-job:v6
-  stage: PROVIDER-INFRA-SETUP
-  dependencies:
-    - aws-cluster
-  script:
-   - chmod 775 ./script/2-infra-setup/cstor-csi-provisioner/cstor-csi-provisioner
-   - ./script/2-infra-setup/cstor-csi-provisioner/cstor-csi-provisioner
-  artifacts:
-    paths:
-      - aws-openebs/            
-
 # ## Define job template for func jobs    
 .func_test_template:
   image: harshshekhar15/gitlab-job:v6
