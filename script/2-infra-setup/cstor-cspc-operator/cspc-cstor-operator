@@ -9,6 +9,7 @@ release_version=$CSPC_FROM_VERSION
 release_branch=$CSPC_FROM_BRANCH
 source ~/.profile
 gittoken=$(echo "$github_token")
+csi_ns=$CSI_NAMESPACE
 
 time="date"
 current_time=$(eval $time)
