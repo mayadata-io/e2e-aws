@@ -6,7 +6,7 @@ stages:
   - CLUSTER-SETUP
   - PROVIDER-INFRA-SETUP
   - APP-FUNC-TEST
-  - UPGRADE-OPENEBS
+  - MIGRATE-OPENEBS
   - APP-CHAOS-TEST
   - CLUSTER-CLEANUP
 
@@ -78,12 +78,6 @@ busybox-deployment-cstor:
     - chmod 775 ./script/3-functional/busybox-deployment-cstor/busybox-deployment-cstor
     - ./script/3-functional/busybox-deployment-cstor/busybox-deployment-cstor
 
-busybox-deployment-jiva:
-  extends: .func_test_template
-  script:
-    - chmod 775 ./script/3-functional/busybox-deployment-jiva/busybox-deployment-jiva
-    - ./script/3-functional/busybox-deployment-jiva/busybox-deployment-jiva
-
 percona-deployment-cstor:
   extends: .func_test_template
   script:
@@ -96,37 +90,7 @@ percona-deployment-localpv-device:
     - chmod 775 ./script/3-functional/percona-localpv-device/percona-localpv-device
     - ./script/3-functional/percona-localpv-device/percona-localpv-device
 
-percona-deployment-localpv-hostpath:
-  extends: .func_test_template
-  script:
-    - chmod 775 ./script/3-functional/percona-localpv-hostpath/percona-localpv-hostpath
-    - ./script/3-functional/percona-localpv-hostpath/percona-localpv-hostpath
-     
-percona-deployment-jiva:
-  extends: .func_test_template
-  script:
-    - chmod 775 ./script/3-functional/percona-deployment-jiva/percona-deployment-jiva
-    - ./script/3-functional/percona-deployment-jiva/percona-deployment-jiva
-
-busybox-cstor-clone:
-  extends: .func_test_template
-  script:
-    - chmod 775 ./script/3-functional/busybox-cstor-clone/busybox-cstor-clone
-    - ./script/3-functional/busybox-cstor-clone/busybox-cstor-clone
-
-busybox-cstor-snapshot:
-  extends: .func_test_template
-  script:
-    - chmod 775 ./script/3-functional/busybox-cstor-snapshot/busybox-cstor-snapshot
-    - ./script/3-functional/busybox-cstor-snapshot/busybox-cstor-snapshot
-
-busybox-jiva-snapshot:
-  extends: .func_test_template
-  script:
-    - chmod 775 ./script/3-functional/busybox-jiva-snapshot/busybox-jiva-snapshot
-    - ./script/3-functional/busybox-jiva-snapshot/busybox-jiva-snapshot
-
-.upgrade_openebs:
+.migrate_openebs:
   image: harshshekhar15/gitlab-job:v6
   stage: UPGRADE-OPENEBS
   dependencies:
@@ -136,22 +100,28 @@ busybox-jiva-snapshot:
      - aws-openebs/
 
 upgrade-control-plane:
-  extends: .upgrade_openebs
+  extends: .migrate_openebs
   script:
-    - chmod 775 ./script/4-upgrade-openebs/upgrade-control-plane
-    - ./script/4-upgrade-openebs/upgrade-control-plane
+    - chmod 775 ./script/4-migrate-openebs/upgrade-control-plane
+    - ./script/4-migrate-openebs/upgrade-control-plane
 
-upgrade-cstor:
-  extends: .upgrade_openebs
+cstor-operator-provision:
+  extends: .migrate_openebs
   script:
-    - chmod 775 ./script/4-upgrade-openebs/upgrade-cstor
-    - ./script/4-upgrade-openebs/upgrade-cstor
+    - chmod 775 ./script/4-migrate-openebs/cspc-cstor-operator
+    - ./script/4-migrate-openebs/cspc-cstor-operator
 
-upgrade-jiva:
-  extends: .upgrade_openebs
+migrate-spc-pool:
+  extends: .migrate_openebs
   script:
-    - chmod 775 ./script/4-upgrade-openebs/upgrade-jiva
-    - ./script/4-upgrade-openebs/upgrade-jiva
+    - chmod 775 ./script/4-migrate-openebs/migrate-cstor-pool
+    - ./script/4-migrate-openebs/migrate-cstor-pool
+
+migrate-cstor-volume:
+  extends: .migrate_openebs
+  script:
+    - chmod 775 ./script/4-migrate-openebs/migrate-cstor-volume
+    - ./script/4-migrate-openebs/migrate-cstor-volume
 
 .chaos_test_template:
   image: harshshekhar15/gitlab-job:v6
@@ -162,41 +132,11 @@ upgrade-jiva:
     paths:
      - aws-openebs/
     
-busybox-controller-kill:
-  extends: .chaos_test_template
-  script:
-    - chmod 775 ./script/5-chaos/bb-controller-kill
-    - ./script/5-chaos/bb-controller-kill
-
-busybox-target-kill:
-  extends: .chaos_test_template
-  script:
-    - chmod 775 ./script/5-chaos/bb-target-kill
-    - ./script/5-chaos/bb-target-kill
-
-busybox-cstor-pool-kill:
-  extends: .chaos_test_template
-  script:
-    - chmod 775 ./script/5-chaos/bb-cstor-pool-kill
-    - ./script/5-chaos/bb-cstor-pool-kill
-
-busybox-cstor-pool-delete:
-  extends: .chaos_test_template
-  script:
-    - chmod 775 ./script/5-chaos/bb-cstor-pool-delete
-    - ./script/5-chaos/bb-cstor-pool-delete
-
 busybox-deployment-target-network-delay:
   extends: .chaos_test_template
   script:
     - chmod 775 ./script/5-chaos/bb-deployment-target-nw-delay
     - ./script/5-chaos/bb-deployment-target-nw-delay
-
-busybox-deployment-controller-network-delay:
-  extends: .chaos_test_template
-  script:
-    - chmod 775 ./script/5-chaos/bb-deployment-controller-nw-delay
-    - ./script/5-chaos/bb-deployment-controller-nw-delay
 
 percona-target-network-delay:
   extends: .chaos_test_template
@@ -209,18 +149,6 @@ percona-cstor:
   script:
     - chmod 775 ./script/5-chaos/percona-deployment-cstor
     - ./script/5-chaos/percona-deployment-cstor
-
-percona-jiva:
-  extends: .chaos_test_template
-  script:
-    - chmod 775 ./script/5-chaos/percona-deployment-jiva
-    - ./script/5-chaos/percona-deployment-jiva
-     
-clone-busybox-cstor:
-  extends: .chaos_test_template
-  script:
-    - chmod 775 ./script/5-chaos/bb-cstor-clone
-    - ./script/5-chaos/bb-cstor-clone
 
 percona-verify-data-persistence-device:
   extends: .chaos_test_template
