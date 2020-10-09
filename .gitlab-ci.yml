@@ -92,7 +92,7 @@ percona-deployment-localpv-device:
 
 .migrate_openebs:
   image: harshshekhar15/gitlab-job:v6
-  stage: UPGRADE-OPENEBS
+  stage: MIGRATE-OPENEBS
   dependencies:
     - openebs-aws-deploy
   artifacts:
