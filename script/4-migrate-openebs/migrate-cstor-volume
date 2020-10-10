@@ -31,7 +31,7 @@ cp providers/openebs/cspc_csi_migration/run_litmus_test.yml migrate-cstor-volume
 
 sed -i -e '/name: MIGRATE_CSTOR_VOLUME/{n;s/.*/            value: "true"/}' \
 -e '/name: MIGRATATION_IMAGE_TAG/{n;s/.*/            value: '"'$to_version'"'/}' \
--e 's/app:cspc-csi-migration/app:cspc-csi-volume-migration/g' \
+-e 's/app: cspc-csi-migration/app: cspc-csi-volume-migration/g' \
 -e '/name: OPERATOR_NS/{n;s/.*/            value: openebs/}' migrate-cstor-volume.yml
 
 sed -i '/command:/i \
