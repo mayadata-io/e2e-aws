@@ -16,7 +16,8 @@ echo $present_dir
 echo "Setting up test dependencies.."	
 ${utils_path}/setup_dependencies litmus-test	
 
-bash script/utils/pooling jobname:migrate-cstor-pool jobphase:Waiting
+bash script/utils/pooling jobname:migrate-cstor-pool
+bash script/utils/e2e-cr jobname:migrate-cstor-volume jobphase:Waiting
 bash script/utils/e2e-cr jobname:migrate-cstor-volume jobphase:Running init_time:"$current_time" jobid:"$job_id" pipelineid:"$pipeline_id" openebs_version:"$releaseTag"
 
 run_id="volume";test_name=$(bash script/utils/generate_test_name testcase=cstor-cspc-csi-migration metadata=${run_id})
