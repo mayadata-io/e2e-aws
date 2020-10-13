@@ -156,12 +156,6 @@ percona-verify-data-persistence-device:
     - chmod 775 ./script/5-chaos/percona-verify-data-persistence-device
     - ./script/5-chaos/percona-verify-data-persistence-device
 
-percona-verify-data-persistence-hostpath:
-  extends: .chaos_test_template
-  script:
-    - chmod 775 ./script/5-chaos/percona-verify-data-persistence-hostpath
-    - ./script/5-chaos/percona-verify-data-persistence-hostpath
-
 percona-deploy-localpv-device:
   extends: .chaos_test_template
   script:
