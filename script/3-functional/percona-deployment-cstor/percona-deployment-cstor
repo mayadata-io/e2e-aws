@@ -32,6 +32,7 @@ cp apps/percona/deployers/run_litmus_test.yml deploy_percona_cstor.yml
 
 sed -i -e 's/value: openebs-standard/value: openebs-cstor-disk/g' \
 -e 's/value: app-percona-ns/value: percona-cstor/g' \
+-e '/name: TARGET_AFFINITY/{n;s/value: ""/value: cstor/g}' \
 -e 's/generateName: litmus-percona-/generateName: litmus-percona-cstor-/g' \
 -e 's/app: percona-deployment/app: percona-deployment-cstor/g' deploy_percona_cstor.yml
 
