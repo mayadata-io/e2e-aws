@@ -4,12 +4,14 @@ set -x
 job_id=$CI_JOB_ID
 pipeline_id=$CI_PIPELINE_ID
 commit_id=$CI_COMMIT_SHA
-releaseTag=$FROM_VERSION
-release_version=$CSPC_FROM_VERSION
+release_version=$FROM_VERSION
+releaseTag=$TO_VERSION
 release_branch=$CSPC_FROM_BRANCH
 source ~/.profile
 gittoken=$(echo "$github_token")
 csi_ns=$CSI_NAMESPACE
+release_commit_id=$COMMIT_ID
+rc_tag=$RC_TAG
 
 time="date"
 current_time=$(eval $time)
@@ -31,11 +33,12 @@ cd litmus
 # copy the content of deployer run_litmus_test.yml into a different file to update the test specific parameters.
 cp providers/cstor-operator/run_litmus_test.yml cstor_operator.yml
 
-sed -i -e "/name: IMAGE_TAG/{n;s/.*/            value: ${releaseTag}/g}" \
+sed -i -e "/name: COMMIT_ID/{n;s/.*/            value: ${release_commit_id}/g}" \
+-e "/name: RC_TAG/{n;s/.*/            value: ${rc_tag/g}" \	
 -e "/name: RELEASE_BRANCH/{n;s/.*/            value: ${release_branch}/g}" \
 -e "/name: CSI_NS/{n;s/.*/            value: ${csi_ns}/g}" \
 -e "/name: NODE_OS/{n;s/.*/            value: 'ubuntu-16.04'/g}" \
--e "/name: RELEASE_VERSION/{n;s/.*/            value: ${release_version}/g}" cstor_operator.yml
+-e "/name: OPENEBS_VERSION/{n;s/.*/            value: ${release_version}/g}" cstor_operator.yml
 
 cat cstor_operator.yml
 
