@@ -4,7 +4,7 @@ set -x
 job_id=$CI_JOB_ID
 pipeline_id=$CI_PIPELINE_ID
 commit_id=$CI_COMMIT_SHA
-openebs_version=$RELEASE_TAG
+openebs_version=$CSPC_RELEASE_TAG
 release_branch=$CSPC_FROM_BRANCH
 source ~/.profile
 gittoken=$(echo "$github_token")
