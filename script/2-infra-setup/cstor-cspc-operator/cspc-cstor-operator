@@ -10,8 +10,8 @@ release_branch=$CSPC_FROM_BRANCH
 source ~/.profile
 gittoken=$(echo "$github_token")
 csi_ns=$CSI_NAMESPACE
-release_commit_id=$COMMIT_ID
-rc_tag=$RC_TAG
+release_commit_id=$FROM_COMMIT_ID
+rc_tag=$FROM_RC_TAG
 
 time="date"
 current_time=$(eval $time)
