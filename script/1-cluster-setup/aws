@@ -46,6 +46,14 @@ cat ~/.kube/config > $path/aws/.kube/admin.conf
 cat ~/.kube/config > $path/aws/.kube/config
 cp -r ~/.ssh/. $path/aws/ssh
 
+git clone https://github.com/openebs/upgrade.git
+cd upgrade/e2e-tests
+
+kubectl apply -f hack/rbac.yaml
+kubectl apply -f hack/crds.yaml
+
+cd ../..
+
 # -------------------------- Applying configmap -------------------------
 kubectl create configmap kubeconfig --from-file=$path/aws/.kube/admin.conf -n e2e
 
