@@ -23,9 +23,9 @@ cat $path/aws/cluster/volume-id > /tmp/aws/volume-id
 
 aws_cluster_name=$(cat /tmp/aws/cluster_name.csv | cut -d ":" -f 2); echo ${aws_cluster_name}
 
-# ---- Cloning litmus repository for cleaning AWS cluster and pre-requisite--------
+# ---- Cloning e2e repository for cleaning AWS cluster and pre-requisite--------
 git clone https://github.com/openebs/e2e-tests.git
-cd e2e-tests/k8s/aws/k8s-installer
+cd  e2e-tests/k8s/aws/k8s-installer
 
 # ---------------------- Deleting AWS cluster -------------------------------------
 sed -i -e 's/region: eu-west-2/region: eu-central-1/g' \
@@ -36,7 +36,7 @@ ansible-playbook delete-aws-cluster.yml -v
 ansible-playbook delete-pre-requisite.yml -v
 
 # ---------------------- Deleting Disks ------------------------------------------#
-cd ../ebs-volumes
+cd ../../../ebs-volumes
 sed -i -e 's/region: eu-west-2/region: eu-central-1/g' \
 -e 's/volume_size: 50/volume_size: 25/g' \
 -e 's/zone: eu-west-2a/zone: eu-central-1a/g' vars.yml
