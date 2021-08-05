@@ -16,9 +16,9 @@ export AWS_DEFAULT_OUTPUT=json
 aws configure set aws_access_key_id $AWS_ACCESS_KEY
 aws configure set aws_secret_access_key $AWS_SECRET_KEY
 
-# ----------------------------- Cloning litmus repository --------------
+# ----------------------------- Cloning e2e repository --------------
 git clone https://github.com/openebs/e2e-tests.git
-cd e2e-tests/k8s/aws/k8s-installer
+cd  e2e-tests/k8s/aws/k8s-installer
 
 # ------- Creating Pre-requisite for setup AWS cluster -----------------
 echo "creating pre-requisite"
@@ -33,11 +33,11 @@ ansible-playbook pre-requisite.yml -v
 echo "creating  AWS cluster"
 ansible-playbook create-aws-cluster.yml --extra-vars "k8s_version=$kubernetes_version" -v
 
-# ------------------- Applying rbac.yml of litmus ---------------------
-wget https://raw.githubusercontent.com/openebs/e2e-tests/master/hack/rbac.yaml
-kubectl apply -f rbac.yaml
-wget https://raw.githubusercontent.com/openebs/e2e-tests/master/hack/crds.yaml
-kubectl apply -f crds.yaml
+# # ------------------- Applying rbac.yml of e2e ---------------------
+# wget https://raw.githubusercontent.com/openebs/e2e-tests/master/hack/rbac.yaml
+# kubectl apply -f rbac.yaml
+# wget https://raw.githubusercontent.com/openebs/e2e-tests/master/hack/crds.yaml
+# kubectl apply -f crds.yaml
 # --------------------- Preparing for gitlab artifact ------------------
 cat /tmp/aws/cluster_name.csv > $path/aws/cluster/cluster_name.csv
 cat /tmp/aws/id.csv > $path/aws/cluster/id.csv
@@ -47,11 +47,11 @@ cat ~/.kube/config > $path/aws/.kube/config
 cp -r ~/.ssh/. $path/aws/ssh
 
 # -------------------------- Applying configmap -------------------------
-kubectl create configmap kubeconfig --from-file=$path/aws/.kube/admin.conf -n litmus
+kubectl create configmap kubeconfig --from-file=$path/aws/.kube/admin.conf -n e2e
 
 # -------------------------- Attach Disks -------------------------------
 aws_cluster_name=$(cat /tmp/aws/cluster_name.csv | cut -d ":" -f 2); echo ${aws_cluster_name}
-cd ../ebs-volumes
+cd ../../../ebs-volumes
 
 sed -i -e 's/region: eu-west-2/region: eu-central-1/g' \
 -e 's/volume_size: 50/volume_size: 25/g' \
