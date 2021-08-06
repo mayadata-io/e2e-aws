@@ -26,18 +26,6 @@ aws-cluster:
 
 ## Setup OpenEBS control plane
 
-openebs-aws-deploy:
-  image: harshshekhar15/gitlab-job:v6
-  stage: PROVIDER-INFRA-SETUP
-  dependencies:
-    - aws-cluster
-  script:
-   - chmod 775 ./script/2-infra-setup/openebs-deploy/infra-setup
-   - ./script/2-infra-setup/openebs-deploy/infra-setup
-  artifacts:
-    paths:
-      - aws-openebs/
-
 openebs-sc-deploy:
   image: harshshekhar15/gitlab-job:v6
   stage: PROVIDER-INFRA-SETUP
@@ -79,7 +67,7 @@ cstor-operator-deploy:
   image: harshshekhar15/gitlab-job:v6
   stage: APP-FUNC-TEST
   dependencies:
-    - openebs-aws-deploy
+    - cstor-operator-deploy
   artifacts:
     paths:
      - aws-openebs/
@@ -96,21 +84,14 @@ percona-deployment-cstor:
     - chmod 775 ./script/3-functional/percona-deployment-cstor/percona-deployment-cstor
     - ./script/3-functional/percona-deployment-cstor/percona-deployment-cstor
 
-
 .upgrade_openebs:
   image: harshshekhar15/gitlab-job:v6
   stage: UPGRADE-OPENEBS
   dependencies:
-    - openebs-aws-deploy
+    - cstor-operator-deploy
   artifacts:
     paths:
      - aws-openebs/
-
-upgrade-control-plane:
-  extends: .upgrade_openebs
-  script:
-    - chmod 775 ./script/4-upgrade-openebs/upgrade-control-plane
-    - ./script/4-upgrade-openebs/upgrade-control-plane
 
 upgrade-cstor-operator:
   extends: .upgrade_openebs
@@ -128,7 +109,7 @@ upgrade-cspc-csi:
   image: harshshekhar15/gitlab-job:v6
   stage: APP-CHAOS-TEST
   dependencies:
-    - openebs-aws-deploy
+    - cstor-operator-deploy
   artifacts:
     paths:
      - aws-openebs/

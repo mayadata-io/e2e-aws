@@ -112,13 +112,14 @@ bash script/utils/e2e-cr jobname:percona-target-nw-delay jobphase:Running init_t
 run_id="percona-cstor";test_name=$(bash script/utils/generate_test_name testcase=openebs-target-network-delay metadata=${run_id})
 echo $test_name
 
-git clone https://github.com/openebs/upgrade.git
-cd upgrade/e2e-tests
+git clone https://github.com/openebs/cstor-operators.git
+cd  cstor-operators/e2e-tests
 
 kubectl apply -f hack/rbac.yaml
 kubectl apply -f hack/crds.yaml
 
 cd  cstor-operators/e2e-tests
+
 cp experiments/chaos/openebs_target_network_delay/run_e2e_test.yml run_percona_target_nw_delay.yml
 
 sed -i -e 's/openebs-target-network-delay/percona-target-nw-delay/g' \

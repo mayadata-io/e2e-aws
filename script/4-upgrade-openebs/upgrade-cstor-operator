@@ -23,7 +23,7 @@ ${utils_path}/setup_dependencies e2e-test
 bash script/utils/e2e-cr jobname:upgrade-cstor-operator jobphase:Waiting
 bash script/utils/e2e-cr jobname:upgrade-cstor-operator jobphase:Running init_time:"$current_time" jobid:"$job_id" pipelineid:"$pipeline_id" openebs_version:"$releaseTag"
 
-test_name=$(bash script/utils/generate_test_name testcase=cstor-cspc-csi-upgrade metadata="")
+test_name=$(bash script/utils/generate_test_name testcase=cstor-csi-upgrade metadata="")
 echo $test_name
 
 git clone https://github.com/openebs/upgrade.git
