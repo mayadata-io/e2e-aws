@@ -33,7 +33,7 @@ setup_cluster_config_test()
 
 if [[ $1 == "infra-setup" ]]; then
  derive_cluster_details_infra;
-elif [[ $1 == "litmus-test" ]]; then
+elif [[ $1 == "e2e-test" ]]; then
  setup_cluster_config_test;
 else echo "invalid job type"; exit 1
 fi
