@@ -18,7 +18,7 @@ present_dir=$(pwd)
 echo $present_dir
 
 echo "Setting up test dependencies.."	
-${utils_path}/setup_dependencies litmus-test	
+${utils_path}/setup_dependencies e2e-test	
 
 bash script/utils/pooling jobname:upgrade-control-plane jobphase:Waiting
 bash script/utils/e2e-cr jobname:upgrade-cstor jobphase:Running init_time:"$current_time" jobid:"$job_id" pipelineid:"$pipeline_id" openebs_version:"$releaseTag"
@@ -26,9 +26,9 @@ bash script/utils/e2e-cr jobname:upgrade-cstor jobphase:Running init_time:"$curr
 test_name=$(bash script/utils/generate_test_name testcase=openebs-upgrade metadata="")
 echo $test_name
 
-git clone https://github.com/mayadata-io/litmus.git
-cd litmus
-echo "Running the litmus test.."
+git clone https://github.com/openebs/e2e-tests
+cd e2e-tests
+echo "Running the e2e test.."
 
 cp providers/openebs/bulk-upgrade/run_litmus_test.yml upgrade-cstor.yml
 sed -i -e '/name: UPGRADE_CSTOR/{n;s/.*/            value: "true"/}' \
@@ -56,7 +56,7 @@ bash script/utils/event_updater jobname:upgrade-cstor $test_name jobid:"$job_id"
 rc_val=$(echo $?)
 kubectl get pods -n openebs -o yaml | grep image | grep -v imageID | grep quay
 
-## Check the test status & result from the litmus result custom resource
+## Check the test status & result from the e2e result custom resource
 source ~/.profile
 testResult=$(kubectl get litmusresult ${test_name} --no-headers -o custom-columns=:spec.testStatus.result)
 

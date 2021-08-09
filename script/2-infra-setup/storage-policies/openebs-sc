@@ -25,9 +25,9 @@ bash script/utils/e2e-cr jobname:s2-j3-policies jobphase:Running init_time:"$cur
 test_name=$(bash script/utils/generate_test_name testcase=cstor-storage-policies metadata="")
 echo $test_name
 
-git clone https://github.com/mayadata-io/litmus.git
-cd litmus
-echo "Running the litmus test.."
+git clone https://github.com/openebs/e2e-tests
+cd e2e-tests
+echo "Running the e2e test.."
 sed -i -e 's/imagePullPolicy: Always/imagePullPolicy: IfNotPresent/g' \
 -e 's/cstor-sparse-pool/cstor-block-disk-pool-stripe/g' providers/cstor-storage-policies/run_litmus_test.yml
 run_test=providers/cstor-storage-policies/run_litmus_test.yml
@@ -46,7 +46,7 @@ bash script/utils/event_updater jobname:s2-j3-policies $test_name jobid:"$job_id
 #################
 rc_val=$(echo $?)
 
-## Check the test status & result from the litmus result custom resource
+## Check the test status & result from the e2e result custom resource
 source ~/.profile
 gittoken=$(echo "$github_token")
 testResult=$(kubectl get litmusresult ${test_name} --no-headers -o custom-columns=:spec.testStatus.result)

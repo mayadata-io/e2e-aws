@@ -14,7 +14,7 @@ present_dir=$(pwd)
 echo $present_dir
 
 echo "Setting up test dependencies.."   
-${utils_path}/setup_dependencies litmus-test
+${utils_path}/setup_dependencies e2e-test
 
 bash script/utils/e2e-cr jobname:percona-controller-nw-delay jobphase:Waiting
 bash script/utils/e2e-cr jobname:percona-controller-nw-delay jobphase:Running init_time:"$current_time" job_id:"$job_id" pipeline_id:"$pipeline_id" openebs_version:"$releaseTag"
@@ -26,14 +26,14 @@ bash script/utils/e2e-cr jobname:percona-controller-nw-delay jobphase:Running in
 run_id="percona-jiva-verify";test_name=$(bash script/utils/generate_test_name testcase=data-persistence-check metadata=${run_id})
 echo $test_name
 
-git clone https://github.com/mayadata-io/litmus.git
-cd litmus
-echo "Running Litmus Book for verifying data-persistence against percona application."
+git clone https://github.com/openebs/e2e-tests
+cd e2e-tests
+echo "Running e2e Book for verifying data-persistence against percona application."
 cp experiments/functional/data-persistence/run_litmus_test.yml percona_jiva_verify_data_persistence.yml
 
-sed -i -e 's/generateName: data-persistence-litmus-/generateName: data-persistence-percona-jiva-/g' \
+sed -i -e 's/generateName: data-persistence-e2e-/generateName: data-persistence-percona-jiva-/g' \
 -e 's/name: data-persistence/name: percona-jiva-configmap/g' \
--e 's/name: litmus-data-persistence/name: data-persistence-percona-jiva-verify/g' \
+-e 's/name: e2e-data-persistence/name: data-persistence-percona-jiva-verify/g' \
 -e '/name: APP_NAMESPACE/{n;s/.*/            value: percona-jiva/}' \
 -e '/name: APP_LABEL/{n;s/.*/            value: '\''name=percona'\''/}' \
 -e '/name: STATUS/{n;s/.*/            value: VERIFY/}' \
@@ -70,12 +70,12 @@ fi
 run_id="percona-jiva-delete";test_name=$(bash script/utils/generate_test_name testcase=data-persistence-check metadata=${run_id})
 echo $test_name
 
-cd litmus
+cd e2e-tests
 cp experiments/functional/data-persistence/run_litmus_test.yml percona_jiva_delete_data_files.yml
 
-sed -i -e 's/generateName: data-persistence-litmus-/generateName: data-persistence-percona-jiva-/g' \
+sed -i -e 's/generateName: data-persistence-e2e-/generateName: data-persistence-percona-jiva-/g' \
 -e 's/name: data-persistence/name: percona-jiva-configmap/g' \
--e 's/name: litmus-data-persistence/name: data-persistence-percona-jiva-delete/g' \
+-e 's/name: e2e-data-persistence/name: data-persistence-percona-jiva-delete/g' \
 -e '/name: APP_NAMESPACE/{n;s/.*/            value: percona-jiva/}' \
 -e '/name: APP_LABEL/{n;s/.*/            value: '\''name=percona'\''/}' \
 -e '/name: STATUS/{n;s/.*/            value: DELETE/}' \
@@ -111,7 +111,7 @@ fi
 run_id="percona-jiva";test_name=$(bash script/utils/generate_test_name testcase=openebs-target-network-delay metadata=${run_id})
 echo $test_name
 
-cd litmus
+cd e2e-tests
 cp experiments/chaos/openebs_target_network_delay/run_litmus_test.yml run_percona_controller_nw_delay.yml
 
 sed -i -e 's/openebs-target-network-delay/percona-controller-nw-delay/g' \
@@ -123,7 +123,7 @@ sed -i '/command:/i \
             value: '"$run_id"'\
 ' run_percona_controller_nw_delay.yml   
 
-## Replace the value of DATA_PERSISTENCE with application name in litmus experiment.
+## Replace the value of DATA_PERSISTENCE with application name in e2e experiment.
 sed -i '/name: DATA_PERSISTENCE/{n;s/.*/            value: mysql/}' run_percona_controller_nw_delay.yml
 
 ## Insert the set of variables for busybox data consistency util into configmap spec.

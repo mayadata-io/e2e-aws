@@ -14,7 +14,7 @@ present_dir=$(pwd)
 echo $present_dir
 
 echo "Setting up test dependencies.."	
-${utils_path}/setup_dependencies litmus-test
+${utils_path}/setup_dependencies e2e-test
 
 bash script/utils/e2e-cr jobname:percona-localpv-device jobphase:Waiting
 bash script/utils/e2e-cr jobname:percona-localpv-device jobphase:Running init_time:"$current_time" job_id:"$job_id" pipeline_id:"$pipeline_id" openebs_version:"$releaseTag"
@@ -24,16 +24,16 @@ bash script/utils/e2e-cr jobname:percona-localpv-device jobphase:Running init_ti
 run_id="localpv-device";test_name=$(bash script/utils/generate_test_name testcase=percona-deployment metadata=${run_id})
 echo $test_name
 
-git clone https://github.com/mayadata-io/litmus.git
-cd litmus
+git clone https://github.com/openebs/e2e-tests
+cd e2e-tests
 
-echo "Running the litmus test for percona Deployment..."
+echo "Running the e2e test for percona Deployment..."
 cp apps/percona/deployers/run_litmus_test.yml deploy_percona_device.yml
 
 sed -i -e 's/value: openebs-standard/value: openebs-device/g' \
 -e 's/value: app-percona-ns/value: percona-localpv-device/g' \
 -e 's/value: enable/value: disable/g' \
--e 's/generateName: litmus-percona-/generateName: litmus-percona-localpv-device-/g' \
+-e 's/generateName: e2e-percona-/generateName: e2e-percona-localpv-device-/g' \
 -e 's/app: percona-deployment/app: percona-localpv-device/g' deploy_percona_device.yml
 
 sed -i '/command:/i \
@@ -58,8 +58,8 @@ fi
 run_id="localpv-device";test_name=$(bash script/utils/generate_test_name testcase=percona-loadgen metadata=${run_id})
 echo $test_name
 
-cd litmus
-echo "Running the litmus test for Loadgen for percona Application..."
+cd e2e-tests
+echo "Running the e2e test for Loadgen for percona Application..."
 cp apps/percona/workload/run_litmus_test.yml loadgen_percona_device.yml
 
 sed -i -e 's/generateName: percona-loadgen-/generateName: percona-cstor-loadgen-/g' \
@@ -88,13 +88,13 @@ fi
 run_id="percona-device";test_name=$(bash script/utils/generate_test_name testcase=data-persistence-check metadata=${run_id})
 echo $test_name
 
-cd litmus
-echo "Running the litmus test to check data-persistence for percona Application..."
+cd e2e-tests
+echo "Running the e2e test to check data-persistence for percona Application..."
 cp experiments/functional/data-persistence/run_litmus_test.yml run_percona_device_data_persistence.yml
 
-sed -i -e 's/generateName: data-persistence-litmus-/generateName: data-persistence-percona-device/g' \
+sed -i -e 's/generateName: data-persistence-e2e-/generateName: data-persistence-percona-device/g' \
 -e 's/name: data-persistence/name: percona-device-configmap/g' \
--e 's/name: litmus-data-persistence/name: data-persistence-percona-device/g' \
+-e 's/name: e2e-data-persistence/name: data-persistence-percona-device/g' \
 -e '/name: APP_NAMESPACE/{n;s/.*/            value: percona-localpv-device/}' \
 -e '/name: APP_LABEL/{n;s/.*/            value: '\''name=percona'\''/}' \
 -e '/name: STATUS/{n;s/.*/            value: LOAD/}' \
