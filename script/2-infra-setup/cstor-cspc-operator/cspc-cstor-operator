@@ -19,6 +19,8 @@ current_time=$(eval $time)
 echo "Setting up test dependencies.."
 ${utils_path}/setup_dependencies infra-setup
 
+kubectl apply -f script/utils/e2e-crd.yml
+
 #pooling over previous job to complete
 bash script/utils/e2e-cr jobname:cstor-operator jobphase:Waiting
 bash script/utils/e2e-cr jobname:cstor-operator jobphase:Running init_time:"$current_time" jobid:"$job_id" pipelineid:"$pipeline_id" openebs_version:"$releaseTag"
@@ -35,7 +37,7 @@ kubectl apply -f hack/crds.yaml
 # copy the content of deployer run_e2e_test.yml into a different file to update the test specific parameters.
 cp experiments/cstor-operator-provision/run_e2e_test.yml cstor_operator.yml
 
-sed -i -e "/name: COMMIT_ID/{n;s/.*/            value: ${release_commit_id}/g}" \
+sed -i -e "/name: COMMIT_ID/{n;s/.*/            value: charts/g}" \
 -e "/name: RC_TAG/{n;s/.*/            value: ${rc_tag}/g}" \
 -e "/name: CSI_NS/{n;s/.*/            value: ${csi_ns}/g}" \
 -e "/name: OPENEBS_VERSION/{n;s/.*/            value: ${release_version}/g}" cstor_operator.yml

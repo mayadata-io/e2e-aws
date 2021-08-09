@@ -30,7 +30,7 @@ kubectl apply -f hack/rbac.yaml
 kubectl apply -f hack/crds.yaml
 
 # copy the content of deployer run_e2e_test.yml into a different file to update the test specific parameters.
-cp providers/cstor/cstor-cspc-pool/run_e2e_test.yml cspc_create_striped_pool.yml
+cp experiments/cstor-operator/cspc-pool-provision/run_e2e_test.yml cspc_create_striped_pool.yml
 
 cat cspc_create_striped_pool.yml
 

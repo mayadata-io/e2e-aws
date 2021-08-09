@@ -33,7 +33,7 @@ kubectl apply -f hack/crds.yaml
 
 echo "Running the e2e test.."
 
-cp providers/openebs/cspc_csi_upgrade/run_e2e_test.yml upgrade-cstor.yml
+cp experiments/cspc_csi_upgrade/run_e2e_test.yml upgrade-cstor.yml
 
 sed -i -e '/name: CSPC_POOL_UPGRADE/{n;s/.*/            value: "true"/}' \
 -e '/name: CSI_VOLUME_UPGRADE/{n;s/.*/            value: "true"/}' \

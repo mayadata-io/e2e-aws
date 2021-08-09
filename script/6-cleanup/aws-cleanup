@@ -36,7 +36,7 @@ ansible-playbook delete-aws-cluster.yml -v
 ansible-playbook delete-pre-requisite.yml -v
 
 # ---------------------- Deleting Disks ------------------------------------------#
-cd ../../../ebs-volumes
+cd ../ebs-volumes
 sed -i -e 's/region: eu-west-2/region: eu-central-1/g' \
 -e 's/volume_size: 50/volume_size: 25/g' \
 -e 's/zone: eu-west-2a/zone: eu-central-1a/g' vars.yml
