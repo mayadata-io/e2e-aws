@@ -42,12 +42,12 @@ sed -i '/command:/i \
 
 cat migrate-cstor-volume.yml
 
-bash ../script/utils/e2e_job_runner label='app:cspc-csi-volume-migration' job=migrate-cstor-volume.yml
+bash ../../script/utils/e2e_job_runner label='app:cspc-csi-volume-migration' job=migrate-cstor-volume.yml
 
 echo "Dumping state of cluster post job run"; echo ""
-bash ../script/utils/dump_cluster_state;
+bash ../../script/utils/dump_cluster_state;
 
-cd ..
+cd ../..
 bash script/utils/event_updater jobname:migrate-cstor-volume $test_name jobid:"$job_id" pipelineid:"$pipeline_id"
 #################
 ## GET RESULT  ##
