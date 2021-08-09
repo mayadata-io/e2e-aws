@@ -27,7 +27,7 @@ echo $test_name
 
 git clone https://github.com/openebs/e2e-tests
 cd e2e-tests
-cp experiments/chaos/openebs_target_failure/run_litmus_test.yml run_ctrl_kill_test.yml
+cp experiments/chaos/openebs_target_failure/run_e2e_test.yml run_ctrl_kill_test.yml
 
 sed -i -e 's/value: percona-mysql-claim/value: openebs-busybox/g' \
 -e 's/generateName: openebs-target-failure/generateName: openebs-controller-failure/g' \
@@ -53,7 +53,7 @@ sed -i '/parameters.yml: |/a \
 
 cat run_ctrl_kill_test.yml
 
-bash ../script/utils/litmus_job_runner label='name:openebs-controller-failure' job=run_ctrl_kill_test.yml
+bash ../script/utils/e2e_job_runner label='name:openebs-controller-failure' job=run_ctrl_kill_test.yml
 cd ..
 bash script/utils/dump_cluster_state;
 bash script/utils/event_updater jobname:bb-controller-kill $test_name jobid:"$job_id" pipelineid:"$pipeline_id"

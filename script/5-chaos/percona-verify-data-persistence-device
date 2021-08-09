@@ -29,7 +29,7 @@ echo $test_name
 git clone https://github.com/openebs/e2e-tests
 cd e2e-tests
 echo "Running e2e Book for verifying data-persistence against percona application."
-cp experiments/functional/data-persistence/run_litmus_test.yml percona_device_verify_data_persistence.yml
+cp experiments/functional/data-persistence/run_e2e_test.yml percona_device_verify_data_persistence.yml
 
 sed -i -e 's/generateName: data-persistence-e2e-/generateName: data-persistence-percona-device-/g' \
 -e 's/name: data-persistence/name: percona-verify-device/g' \
@@ -53,7 +53,7 @@ sed -i '/command:/i \
 
 cat percona_device_verify_data_persistence.yml
 
-bash ../script/utils/litmus_job_runner label='name:data-persistence-percona-device-verify' job=percona_device_verify_data_persistence.yml
+bash ../script/utils/e2e_job_runner label='name:data-persistence-percona-device-verify' job=percona_device_verify_data_persistence.yml
 cd ..
 
 bash script/utils/dump_cluster_state;

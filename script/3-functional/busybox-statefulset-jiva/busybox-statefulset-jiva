@@ -28,7 +28,7 @@ git clone https://github.com/openebs/e2e-tests
 cd e2e-tests
 
 echo "Running the e2e test for BusyBox statefulset..."
-cp apps/busybox/deployers/run_litmus_test.yml statefulset_busybox_jiva.yml
+cp apps/busybox/deployers/run_e2e_test.yml statefulset_busybox_jiva.yml
 
 sed -i -e 's/value: openebs-cstor-sparse/value: openebs-jiva-default/g' \
 -e 's/value: app-busybox-ns/value: bb-jiva-statefulset/g' \
@@ -38,7 +38,7 @@ sed -i -e 's/value: openebs-cstor-sparse/value: openebs-jiva-default/g' \
 
 cat statefulset_busybox_jiva.yml
 
-bash ../script/utils/litmus_job_runner label='app:busybox-statefulset-jiva' job=statefulset_busybox_jiva.yml
+bash ../script/utils/e2e_job_runner label='app:busybox-statefulset-jiva' job=statefulset_busybox_jiva.yml
 cd ..
 
 bash script/utils/dump_cluster_state;
@@ -55,7 +55,7 @@ echo $test_name
 
 cd e2e-tests
 echo "Running the e2e test for Liveness for BusyBox statefulset..."
-cp apps/busybox/liveness/run_litmus_test.yml liveness_busybox_statefulset_jiva.yml
+cp apps/busybox/liveness/run_e2e_test.yml liveness_busybox_statefulset_jiva.yml
 
 sed -i -e 's/generateName: e2e-busybox-liveness-/generateName: busybox-statefulset-liveness-jiva-/g' \
 -e 's/value: app-busybox-ns/value: bb-jiva-statefulset/g' \
@@ -68,7 +68,7 @@ sed -i '/command:/i \
 
 cat liveness_busybox_statefulset_jiva.yml
 
-bash ../script/utils/litmus_job_runner label='liveness:busybox-statefulset-liveness-jiva' liveness_busybox_statefulset_jiva.yml
+bash ../script/utils/e2e_job_runner label='liveness:busybox-statefulset-liveness-jiva' liveness_busybox_statefulset_jiva.yml
 cd ..
 
 bash script/utils/dump_cluster_state;
@@ -85,7 +85,7 @@ echo $test_name
 
 cd e2e-tests
 echo "Running the e2e test to check data-persistence for BusyBox Application..."
-cp experiments/functional/data-persistence/run_litmus_test.yml bb_jiva_statefulset_data_persistence.yml
+cp experiments/functional/data-persistence/run_e2e_test.yml bb_jiva_statefulset_data_persistence.yml
 
 sed -i -e 's/generateName: data-persistence-e2e-/generateName: data-persistence-busybox-statefulset-jiva-/g' \
 -e 's/name: data-persistence/name: bb-jiva-statefulset-configmap/g' \
@@ -109,7 +109,7 @@ sed -i '/parameters.yml: |/a \
 
 cat bb_jiva_statefulset_data_persistence.yml
 
-bash ../script/utils/litmus_job_runner label='name:data-persistence-busybox-statefulset-jiva' job=bb_jiva_statefulset_data_persistence.yml
+bash ../script/utils/e2e_job_runner label='name:data-persistence-busybox-statefulset-jiva' job=bb_jiva_statefulset_data_persistence.yml
 cd ..
 
 bash script/utils/dump_cluster_state;

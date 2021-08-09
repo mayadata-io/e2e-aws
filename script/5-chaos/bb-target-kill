@@ -29,7 +29,7 @@ echo $test_name
 
 git clone https://github.com/openebs/e2e-tests
 cd e2e-tests
-cp experiments/chaos/openebs_target_failure/run_litmus_test.yml run_target_kill_test.yml
+cp experiments/chaos/openebs_target_failure/run_e2e_test.yml run_target_kill_test.yml
 
 sed -i -e 's/value: percona-mysql-claim/value: openebs-busybox/g' \
 -e 's/value: '\''name=percona'\''/value: '\''app=busybox-sts'\''/g' \
@@ -55,7 +55,7 @@ sed -i '/parameters.yml: |/a \
 echo "Running the e2e test for Busybox Deployment Scaleup.."
 cat run_target_kill_test.yml
 
-bash ../script/utils/litmus_job_runner label='name:openebs-target-failure' job=run_target_kill_test.yml
+bash ../script/utils/e2e_job_runner label='name:openebs-target-failure' job=run_target_kill_test.yml
 cd ..
 bash script/utils/dump_cluster_state;
 bash script/utils/event_updater jobname:bb-target-kill $test_name jobid:"$job_id" pipelineid:"$pipeline_id"
