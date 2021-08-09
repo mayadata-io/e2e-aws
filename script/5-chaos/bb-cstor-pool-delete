@@ -27,7 +27,7 @@ echo $test_name
 
 git clone https://github.com/openebs/e2e-tests
 cd e2e-tests
-cp experiments/chaos/openebs_pool_failure/run_litmus_test.yml pooldelete.yml
+cp experiments/chaos/openebs_pool_failure/run_e2e_test.yml pooldelete.yml
 
 sed -i -e 's/value: percona-mysql-claim/value: openebs-busybox/g' \
 -e 's/name: openebs-pool-failure/name: openebs-pool-delete/g' \
@@ -52,7 +52,7 @@ sed -i '/parameters.yml: |/a \
 
 cat pooldelete.yml
 
-bash ../script/utils/litmus_job_runner label='name:openebs-pool-delete' job=pooldelete.yml
+bash ../script/utils/e2e_job_runner label='name:openebs-pool-delete' job=pooldelete.yml
 cd ..
 bash script/utils/dump_cluster_state;
 bash script/utils/event_updater jobname:bb-cstor-pool-delete $test_name jobid:"$job_id" pipelineid:"$pipeline_id"

@@ -30,7 +30,7 @@ echo $test_name
 git clone https://github.com/openebs/e2e-tests
 cd e2e-tests
 echo "Running e2e Book for verifying data-persistence against busybox application."
-cp experiments/functional/data-persistence/run_litmus_test.yml bb_deployment_cstor_verify_data_persistence.yml
+cp experiments/functional/data-persistence/run_e2e_test.yml bb_deployment_cstor_verify_data_persistence.yml
 
 sed -i -e 's/generateName: data-persistence-e2e-/generateName: data-persistence-busybox-cstor-/g' \
 -e 's/name: data-persistence/name: bb-cstor-deployment-configmap/g' \
@@ -54,7 +54,7 @@ sed -i '/command:/i \
 
 cat bb_deployment_cstor_verify_data_persistence.yml
 
-bash ../script/utils/litmus_job_runner label='name:data-persistence-busybox-cstor-delay-verify' job=bb_deployment_cstor_verify_data_persistence.yml
+bash ../script/utils/e2e_job_runner label='name:data-persistence-busybox-cstor-delay-verify' job=bb_deployment_cstor_verify_data_persistence.yml
 cd ..
 
 bash script/utils/dump_cluster_state;
@@ -72,7 +72,7 @@ run_id="bb-cstor-delete";test_name=$(bash script/utils/generate_test_name testca
 echo $test_name
 
 cd e2e-tests
-cp experiments/functional/data-persistence/run_litmus_test.yml bb_deployment_cstor_delete_file.yml
+cp experiments/functional/data-persistence/run_e2e_test.yml bb_deployment_cstor_delete_file.yml
 
 sed -i -e 's/generateName: data-persistence-e2e-/generateName: data-persistence-busybox-cstor-/g' \
 -e 's/name: data-persistence/name: bb-cstor-deployment-configmap/g' \
@@ -96,7 +96,7 @@ sed -i '/command:/i \
 
 cat bb_deployment_cstor_delete_file.yml
 
-bash ../script/utils/litmus_job_runner label='name:data-persistence-busybox-cstor-delay-delete' job=bb_deployment_cstor_delete_file.yml
+bash ../script/utils/e2e_job_runner label='name:data-persistence-busybox-cstor-delay-delete' job=bb_deployment_cstor_delete_file.yml
 cd ..
 
 bash script/utils/dump_cluster_state;
@@ -114,7 +114,7 @@ run_id="bb-cstor";test_name=$(bash script/utils/generate_test_name testcase=open
 echo $test_name
 
 cd e2e-tests
-cp experiments/chaos/openebs_target_network_delay/run_litmus_test.yml run_bb_target_nw_delay.yml
+cp experiments/chaos/openebs_target_network_delay/run_e2e_test.yml run_bb_target_nw_delay.yml
 
 sed -i -e 's/value: percona-mysql-claim/value: openebs-busybox/g' \
 -e 's/name: target-network-delay/name: bb-target-nw-delay-configmap/g' \
@@ -139,7 +139,7 @@ sed -i '/command:/i \
 
 cat run_bb_target_nw_delay.yml
 
-bash ../script/utils/litmus_job_runner label='name:bb-deployment-target-nw-delay' job=run_bb_target_nw_delay.yml
+bash ../script/utils/e2e_job_runner label='name:bb-deployment-target-nw-delay' job=run_bb_target_nw_delay.yml
 cd ..
 
 bash script/utils/dump_cluster_state;

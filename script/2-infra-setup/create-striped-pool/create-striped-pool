@@ -26,8 +26,8 @@ echo $test_name
 git clone https://github.com/openebs/e2e-tests
 cd e2e-tests
 
-# copy the content of deployer run_litmus_test.yml into a different file to update the test specific parameters.
-cp providers/cstor/cstor-block-device-pool/run_litmus_test.yml create_striped_pool.yml
+# copy the content of deployer run_e2e_test.yml into a different file to update the test specific parameters.
+cp providers/cstor/cstor-block-device-pool/run_e2e_test.yml create_striped_pool.yml
 
 #################
 ## RUNNER MAIN ##
@@ -57,7 +57,7 @@ sed -i '/command:/i \
 
 cat create_striped_pool.yml
 
-bash ../script/utils/litmus_job_runner label='app:cstor-striped-pool-provision' job=create_striped_pool.yml
+bash ../script/utils/e2e_job_runner label='app:cstor-striped-pool-provision' job=create_striped_pool.yml
 bash ../script/utils/dump_cluster_state;
 cd ..
 bash script/utils/event_updater jobname:s2-j2-cstor-striped-pool $test_name jobid:"$job_id" pipelineid:"$pipeline_id"
@@ -70,7 +70,7 @@ rc_val=$(echo $?)
 ## Check the test status & result from the e2e result custom resource
 source ~/.profile
 gittoken=$(echo "$github_token")
-testResult=$(kubectl get litmusresult ${test_name} --no-headers -o custom-columns=:spec.testStatus.result)
+testResult=$(kubectl get e2eresult ${test_name} --no-headers -o custom-columns=:spec.testStatus.result)
 
 current_time=$(eval $time)
 bash script/utils/e2e-cr jobname:s2-j2-cstor-striped-pool jobphase:Completed end_time:"$current_time" jobid:"$job_id" pipelineid:"$pipeline_id" openebs_version:"$releaseTag" test_result:Pass

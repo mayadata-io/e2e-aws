@@ -28,7 +28,7 @@ git clone https://github.com/openebs/e2e-tests
 cd e2e-tests
 
 echo "Running the e2e test for percona Deployment..."
-cp apps/percona/deployers/run_litmus_test.yml deploy_percona_cstor.yml
+cp apps/percona/deployers/run_e2e_test.yml deploy_percona_cstor.yml
 
 sed -i -e 's/value: openebs-standard/value: openebs-cstor-disk/g' \
 -e 's/value: app-percona-ns/value: percona-cstor/g' \
@@ -43,7 +43,7 @@ sed -i '/command:/i \
 
 cat deploy_percona_cstor.yml
 
-bash ../script/utils/litmus_job_runner label='app:percona-deployment-cstor' job=deploy_percona_cstor.yml
+bash ../script/utils/e2e_job_runner label='app:percona-deployment-cstor' job=deploy_percona_cstor.yml
 cd ..
 
 bash script/utils/dump_cluster_state;
@@ -60,7 +60,7 @@ echo $test_name
 
 cd e2e-tests
 echo "Running the e2e test for Loadgen for percona Application..."
-cp apps/percona/workload/run_litmus_test.yml loadgen_percona_cstor.yml
+cp apps/percona/workload/run_e2e_test.yml loadgen_percona_cstor.yml
 
 sed -i -e 's/generateName: percona-loadgen-/generateName: percona-cstor-loadgen-/g' \
 -e 's/value: app-percona-ns/value: percona-cstor/g' \
@@ -73,7 +73,7 @@ sed -i '/command:/i \
 
 cat loadgen_percona_cstor.yml
 
-bash ../script/utils/litmus_job_runner label='loadgen:percona-cstor-loadjob' job=loadgen_percona_cstor.yml
+bash ../script/utils/e2e_job_runner label='loadgen:percona-cstor-loadjob' job=loadgen_percona_cstor.yml
 cd ..
 
 bash script/utils/dump_cluster_state;
@@ -90,7 +90,7 @@ echo $test_name
 
 cd e2e-tests
 echo "Running the e2e test to check data-persistence for percona Application..."
-cp experiments/functional/data-persistence/run_litmus_test.yml run_percona_cstor_data_persistence.yml
+cp experiments/functional/data-persistence/run_e2e_test.yml run_percona_cstor_data_persistence.yml
 
 sed -i -e 's/generateName: data-persistence-e2e-/generateName: data-persistence-percona-cstor/g' \
 -e 's/name: data-persistence/name: percona-cstor-configmap/g' \
@@ -114,7 +114,7 @@ sed -i '/parameters.yml: |/a \
 
 cat run_percona_cstor_data_persistence.yml
 
-bash ../script/utils/litmus_job_runner label='name:data-persistence-percona-cstor' job=run_percona_cstor_data_persistence.yml
+bash ../script/utils/e2e_job_runner label='name:data-persistence-percona-cstor' job=run_percona_cstor_data_persistence.yml
 cd ..
 
 bash script/utils/dump_cluster_state;

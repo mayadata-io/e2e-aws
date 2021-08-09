@@ -28,7 +28,7 @@ git clone https://github.com/openebs/e2e-tests
 cd e2e-tests
 
 echo "Running the e2e test for BusyBox Deployment..."
-cp apps/busybox/deployers/run_litmus_test.yml deploy_busybox_cstor_snapshot.yml
+cp apps/busybox/deployers/run_e2e_test.yml deploy_busybox_cstor_snapshot.yml
 
 sed -i -e 's/value: openebs-cstor-sparse/value: openebs-cstor-disk/g' \
 -e 's/value: app-busybox-ns/value: bb-cstor-snapshot/g' \
@@ -38,7 +38,7 @@ sed -i -e 's/value: openebs-cstor-sparse/value: openebs-cstor-disk/g' \
 
 cat deploy_busybox_cstor_snapshot.yml
 
-bash ../script/utils/litmus_job_runner label='app:busybox-e2e-cstor-snapshot' job=deploy_busybox_cstor_snapshot.yml
+bash ../script/utils/e2e_job_runner label='app:busybox-e2e-cstor-snapshot' job=deploy_busybox_cstor_snapshot.yml
 cd ..
 
 bash script/utils/dump_cluster_state;
@@ -55,7 +55,7 @@ echo $test_name
 
 cd e2e-tests
 echo "Running the e2e test for Liveness for BusyBox Application..."
-cp apps/busybox/liveness/run_litmus_test.yml liveness_busybox_cstor_snapshot.yml
+cp apps/busybox/liveness/run_e2e_test.yml liveness_busybox_cstor_snapshot.yml
 
 sed -i -e 's/generateName: e2e-busybox-liveness-/generateName: busybox-liveness-cstor-snapshot/g' \
 -e 's/value: app-busybox-ns/value: bb-cstor-snapshot/g' \
@@ -68,7 +68,7 @@ sed -i '/command:/i \
 
 cat liveness_busybox_cstor_snapshot.yml
 
-bash ../script/utils/litmus_job_runner label='liveness:busybox-liveness-cstor-snapshot' job=liveness_busybox_cstor_snapshot.yml
+bash ../script/utils/e2e_job_runner label='liveness:busybox-liveness-cstor-snapshot' job=liveness_busybox_cstor_snapshot.yml
 cd ..
 
 bash script/utils/dump_cluster_state;
@@ -85,7 +85,7 @@ echo $test_name
 
 cd e2e-tests
 echo "Running the e2e test to check data-persistence for BusyBox Application..."
-cp experiments/functional/data-persistence/run_litmus_test.yml bb_cstor_snapshot_data_persistence.yml
+cp experiments/functional/data-persistence/run_e2e_test.yml bb_cstor_snapshot_data_persistence.yml
 
 sed -i -e 's/generateName: data-persistence-e2e-/generateName: data-persistence-busybox-cstor-snapshot-/g' \
 -e 's/name: data-persistence/name: bb-cstor-snapshot-configmap/g' \
@@ -109,7 +109,7 @@ sed -i '/parameters.yml: |/a \
 
 cat bb_cstor_snapshot_data_persistence.yml
 
-bash ../script/utils/litmus_job_runner label='name:data-persistence-busybox-cstor-snapshot' job=bb_cstor_snapshot_data_persistence.yml
+bash ../script/utils/e2e_job_runner label='name:data-persistence-busybox-cstor-snapshot' job=bb_cstor_snapshot_data_persistence.yml
 cd ..
 
 bash script/utils/dump_cluster_state;
@@ -126,7 +126,7 @@ echo $test_name
 
 cd e2e-tests
 echo "Running the e2e test for Creating snapshot for Busybox cstor application..."
-cp experiments/functional/snapshot-creation/run_litmus_test.yml run_bb_cstor_snapshot.yml
+cp experiments/functional/snapshot-creation/run_e2e_test.yml run_bb_cstor_snapshot.yml
 
 sed -i -e 's/generateName: e2e-snapshot-/generateName: bb-cstor-snapshot-/g' \
 -e 's/value: app-busybox-ns/value: bb-cstor-snapshot/g' \
@@ -140,7 +140,7 @@ sed -i '/command:/i \
 
 cat run_bb_cstor_snapshot.yml
 
-bash ../script/utils/litmus_job_runner label='app:bb-cstor-snapshot' job=run_bb_cstor_snapshot.yml
+bash ../script/utils/e2e_job_runner label='app:bb-cstor-snapshot' job=run_bb_cstor_snapshot.yml
 cd ..
 
 bash script/utils/dump_cluster_state;

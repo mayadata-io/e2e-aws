@@ -25,7 +25,7 @@ echo $test_name
 git clone https://github.com/openebs/e2e-tests
 cd e2e-tests
 echo "Running the e2e test for Creating clone for Busybox application..."
-cp experiments/functional/clone-creation/run_litmus_test.yml bb_clone.yml
+cp experiments/functional/clone-creation/run_e2e_test.yml bb_clone.yml
 
 sed -i -e 's/generatName: e2e-clone-/generateName: e2e-busybox-clone-/g' \
 -e 's/value: app-busybox-ns/value: bb-cstor-snapshot/g' \
@@ -39,7 +39,7 @@ sed -i '/command:/i \
 
 cat bb_clone.yml
 
-bash ../script/utils/litmus_job_runner label='app:busybox-clone' job=bb_clone.yml
+bash ../script/utils/e2e_job_runner label='app:busybox-clone' job=bb_clone.yml
 cd ..
 
 bash script/utils/dump_cluster_state;
