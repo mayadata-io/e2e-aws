@@ -44,10 +44,10 @@ echo "Generating test name***************************"
 test_name=$(bash script/utils/generate_test_name testcase=openebs-provision metadata="")
 echo $test_name
 
-## Clone the litmus repo, navigate to litmus root 
+## Clone the e2e repo, navigate to e2e root 
 
-git clone https://github.com/mayadata-io/litmus.git
-cd litmus
+git clone https://github.com/openebs/e2e-tests
+cd e2e-tests
 
 cp providers/openebs/installers/operator/openebs-provision/run_litmus_test.yml run_openebs_provision.yml
 
@@ -67,11 +67,11 @@ echo "Applying rbac.yml********************************"
 kubectl apply -f ./hack/rbac.yaml
 kubectl apply -f ./hack/crds.yaml
 
-echo "Copying kube config for litmus"
+echo "Copying kube config for e2e"
 cp ~/.kube/config admin.conf
-kubectl create cm kubeconfig --from-file=admin.conf -n litmus
+kubectl create cm kubeconfig --from-file=admin.conf -n e2e
 
-echo "Running litmus test for openebs deploy.."
+echo "Running e2e test for openebs deploy.."
 
 bash ../script/utils/litmus_job_runner label='app:openebs-provision' job=run_openebs_provision.yml
 
@@ -84,7 +84,7 @@ bash script/utils/event_updater jobname:s2-j1-openebs-deploy $test_name jobid:"$
 #################
 rc_val=$(echo $?)
 
-## Check the test status & result from the litmus result custom resource
+## Check the test status & result from the e2e result custom resource
 source ~/.profile
 testResult=$(kubectl get litmusresult ${test_name} --no-headers -o custom-columns=:spec.testStatus.result)
 

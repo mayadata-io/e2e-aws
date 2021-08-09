@@ -14,7 +14,7 @@ present_dir=$(pwd)
 echo $present_dir
 
 echo "Setting up test dependencies.."   
-${utils_path}/setup_dependencies litmus-test
+${utils_path}/setup_dependencies e2e-test
 
 bash script/utils/pooling jobname:bb-cstor-pool-kill
 bash script/utils/e2e-cr jobname:bb-cstor-pool-delete jobphase:Waiting
@@ -25,8 +25,8 @@ echo "*******Performing cStor Pool delete**********"
 run_id="delete";test_name=$(bash script/utils/generate_test_name testcase=openebs-pool-failure metadata=${run_id})
 echo $test_name
 
-git clone https://github.com/mayadata-io/litmus.git
-cd litmus
+git clone https://github.com/openebs/e2e-tests
+cd e2e-tests
 cp experiments/chaos/openebs_pool_failure/run_litmus_test.yml pooldelete.yml
 
 sed -i -e 's/value: percona-mysql-claim/value: openebs-busybox/g' \

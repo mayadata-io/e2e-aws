@@ -12,8 +12,8 @@ Administrator should be able to use this job to create OpenEBS cStor based stora
 
 #### Procedure
 
-- This job triggers litmus experiment which creates striped storage pool using disks.
-- The litmus experiment receives the necessary parameters in form of pod environmental variables and updates the manifest accordingly.
+- This job triggers e2e experiment which creates striped storage pool using disks.
+- The e2e experiment receives the necessary parameters in form of pod environmental variables and updates the manifest accordingly.
 - This test checks if the required cStor pool is created successfully using kubectl command `kubectl get spc`
 - This investigates if the corresponding cstor pool pods are running using SPC as label.
 - Finally, this job updates the result CR with the actual result.

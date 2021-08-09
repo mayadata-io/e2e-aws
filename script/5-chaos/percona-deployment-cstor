@@ -14,7 +14,7 @@ present_dir=$(pwd)
 echo $present_dir
 
 echo "Setting up test dependencies.."   
-${utils_path}/setup_dependencies litmus-test
+${utils_path}/setup_dependencies e2e-test
 
 bash script/utils/e2e-cr jobname:percona-cstor jobphase:Waiting
 bash script/utils/e2e-cr jobname:percona-cstor jobphase:Running init_time:"$current_time" job_id:"$job_id" pipeline_id:"$pipeline_id" openebs_version:"$releaseTag"
@@ -24,9 +24,9 @@ bash script/utils/e2e-cr jobname:percona-cstor jobphase:Running init_time:"$curr
 run_id="cstor";test_name=$(bash script/utils/generate_test_name testcase=percona-deployment metadata=${run_id})
 echo $test_name
 
-git clone https://github.com/mayadata-io/litmus.git
-cd litmus
-echo "Running the litmus test for percona Deployment..."
+git clone https://github.com/openebs/e2e-tests
+cd e2e-tests
+echo "Running the e2e test for percona Deployment..."
 cp apps/percona/deployers/run_litmus_test.yml percona_cstor.yml
 
 sed -i -e 's/app: percona-deployment/app: percona-deploy-cstor/g' \
@@ -56,13 +56,13 @@ fi
 run_id="percona-cstor-load";test_name=$(bash script/utils/generate_test_name testcase=data-persistence-check metadata=${run_id})
 echo $test_name
 
-cd litmus
-echo "Running the litmus experiment to check data-persistence for percona Application..."
+cd e2e-tests
+echo "Running the e2e experiment to check data-persistence for percona Application..."
 cp experiments/functional/data-persistence/run_litmus_test.yml percona_cstor_load.yml
 
-sed -i -e 's/generateName: data-persistence-litmus-/generateName: data-persistence-percona-cstor-/g' \
+sed -i -e 's/generateName: data-persistence-e2e-/generateName: data-persistence-percona-cstor-/g' \
 -e 's/name: data-persistence/name: percona-cstor-cm/g' \
--e 's/name: litmus-data-persistence/name: percona-cstor-load/g' \
+-e 's/name: e2e-data-persistence/name: percona-cstor-load/g' \
 -e '/name: APP_NAMESPACE/{n;s/.*/            value: percona-cstor-ns/}' \
 -e '/name: APP_LABEL/{n;s/.*/            value: '\''name=percona'\''/}' \
 -e '/name: STATUS/{n;s/.*/            value: LOAD/}' \
@@ -97,13 +97,13 @@ fi
 run_id="percona-cstor-verify";test_name=$(bash script/utils/generate_test_name testcase=data-persistence-check metadata=${run_id})
 echo $test_name
 
-cd litmus
-echo "Running the litmus experiment to check data-persistence for percona Application..."
+cd e2e-tests
+echo "Running the e2e experiment to check data-persistence for percona Application..."
 cp experiments/functional/data-persistence/run_litmus_test.yml percona_cstor_verify.yml
 
-sed -i -e 's/generateName: data-persistence-litmus-/generateName: data-persistence-percona-cstor-/g' \
+sed -i -e 's/generateName: data-persistence-e2e-/generateName: data-persistence-percona-cstor-/g' \
 -e 's/name: data-persistence/name: percona-cstor-cm/g' \
--e 's/name: litmus-data-persistence/name: percona-cstor-verify/g' \
+-e 's/name: e2e-data-persistence/name: percona-cstor-verify/g' \
 -e '/name: APP_NAMESPACE/{n;s/.*/            value: percona-cstor-ns/}' \
 -e '/name: APP_LABEL/{n;s/.*/            value: '\''name=percona'\''/}' \
 -e '/name: STATUS/{n;s/.*/            value: VERIFY/}' \
@@ -138,13 +138,13 @@ fi
 run_id="percona-cstor-delete";test_name=$(bash script/utils/generate_test_name testcase=data-persistence-check metadata=${run_id})
 echo $test_name
 
-cd litmus
-echo "Running the litmus experiment to check data-persistence for percona Application..."
+cd e2e-tests
+echo "Running the e2e experiment to check data-persistence for percona Application..."
 cp experiments/functional/data-persistence/run_litmus_test.yml percona_cstor_delete.yml
 
-sed -i -e 's/generateName: data-persistence-litmus-/generateName: data-persistence-percona-cstor-/g' \
+sed -i -e 's/generateName: data-persistence-e2e-/generateName: data-persistence-percona-cstor-/g' \
 -e 's/name: data-persistence/name: percona-cstor-cm/g' \
--e 's/name: litmus-data-persistence/name: percona-cstor-delete/g' \
+-e 's/name: e2e-data-persistence/name: percona-cstor-delete/g' \
 -e '/name: APP_NAMESPACE/{n;s/.*/            value: percona-cstor-ns/}' \
 -e '/name: APP_LABEL/{n;s/.*/            value: '\''name=percona'\''/}' \
 -e '/name: STATUS/{n;s/.*/            value: DELETE/}' \

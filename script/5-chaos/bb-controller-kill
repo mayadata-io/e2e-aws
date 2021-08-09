@@ -14,7 +14,7 @@ present_dir=$(pwd)
 echo $present_dir
 
 echo "Setting up test dependencies.."   
-${utils_path}/setup_dependencies litmus-test
+${utils_path}/setup_dependencies e2e-test
 
 bash script/utils/e2e-cr jobname:bb-controller-nw-delay jobphase:Waiting
 bash script/utils/e2e-cr jobname:bb-controller-kill jobphase:Waiting
@@ -25,8 +25,8 @@ bash script/utils/e2e-cr jobname:bb-controller-kill jobphase:Running init_time:"
 run_id="ctrl-kill";test_name=$(bash script/utils/generate_test_name testcase=openebs-target-failure metadata=${run_id})
 echo $test_name
 
-git clone https://github.com/mayadata-io/litmus.git
-cd litmus
+git clone https://github.com/openebs/e2e-tests
+cd e2e-tests
 cp experiments/chaos/openebs_target_failure/run_litmus_test.yml run_ctrl_kill_test.yml
 
 sed -i -e 's/value: percona-mysql-claim/value: openebs-busybox/g' \
@@ -41,7 +41,7 @@ sed -i '/command:/i \
             value: '"$run_id"'\
 ' run_ctrl_kill_test.yml
 
-## Replace the value of DATA_PERSISTENCE with application name in litmus experiment.
+## Replace the value of DATA_PERSISTENCE with application name in e2e experiment.
 sed -i '/name: DATA_PERSISTENCE/{n;s/.*/            value: busybox/}' run_ctrl_kill_test.yml
 
 ## Insert the set of variables for busybox data consistency util into configmap spec.

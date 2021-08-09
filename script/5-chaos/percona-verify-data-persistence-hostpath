@@ -14,7 +14,7 @@ present_dir=$(pwd)
 echo $present_dir
 
 echo "Setting up test dependencies.."   
-${utils_path}/setup_dependencies litmus-test
+${utils_path}/setup_dependencies e2e-test
 
 bash script/utils/e2e-cr jobname:percona-verify-data-persistence-hostpath jobphase:Waiting
 bash script/utils/e2e-cr jobname:percona-verify-data-persistence-hostpath jobphase:Running init_time:"$current_time" job_id:"$job_id" pipeline_id:"$pipeline_id" openebs_version:"$releaseTag"
@@ -26,14 +26,14 @@ bash script/utils/e2e-cr jobname:percona-verify-data-persistence-hostpath jobpha
 run_id="percona-hostpath-verify";test_name=$(bash script/utils/generate_test_name testcase=data-persistence-check metadata=${run_id})
 echo $test_name
 
-git clone https://github.com/mayadata-io/litmus.git
-cd litmus
-echo "Running Litmus Book for verifying data-persistence against percona application."
+git clone https://github.com/openebs/e2e-tests
+cd e2e-tests
+echo "Running e2e Book for verifying data-persistence against percona application."
 cp experiments/functional/data-persistence/run_litmus_test.yml percona_hostpath_verify_data_persistence.yml
 
-sed -i -e 's/generateName: data-persistence-litmus-/generateName: data-persistence-percona-hostpath-/g' \
+sed -i -e 's/generateName: data-persistence-e2e-/generateName: data-persistence-percona-hostpath-/g' \
 -e 's/name: data-persistence/name: percona-verify-hostpath/g' \
--e 's/name: litmus-data-persistence/name: data-persistence-percona-hostpath-verify/g' \
+-e 's/name: e2e-data-persistence/name: data-persistence-percona-hostpath-verify/g' \
 -e '/name: APP_NAMESPACE/{n;s/.*/            value: percona-localpv-hostpath/}' \
 -e '/name: APP_LABEL/{n;s/.*/            value: '\''name=percona'\''/}' \
 -e '/name: STATUS/{n;s/.*/            value: VERIFY/}' \
