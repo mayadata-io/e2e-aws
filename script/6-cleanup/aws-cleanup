@@ -23,7 +23,7 @@ cat $path/aws/cluster/volume-id > /tmp/aws/volume-id
 
 aws_cluster_name=$(cat /tmp/aws/cluster_name.csv | cut -d ":" -f 2); echo ${aws_cluster_name}
 
-# ---- Cloning litmus repository for cleaning AWS cluster and pre-requisite--------
+# ---- Cloning e2e repository for cleaning AWS cluster and pre-requisite--------
 git clone https://github.com/openebs/e2e-tests.git
 cd e2e-tests/k8s/aws/k8s-installer
 

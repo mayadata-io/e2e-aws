@@ -23,23 +23,23 @@ bash script/utils/e2e-cr jobname:s2-j2-cstor-striped-pool jobphase:Running init_
 run_id="striped";test_name=$(bash script/utils/generate_test_name testcase=cstor-block-device-pool-provision metadata=${run_id})
 echo $test_name
 
-git clone https://github.com/mayadata-io/litmus.git
-cd litmus
+git clone https://github.com/openebs/e2e-tests
+cd e2e-tests
 
-# copy the content of deployer run_litmus_test.yml into a different file to update the test specific parameters.
-cp providers/cstor/cstor-block-device-pool/run_litmus_test.yml create_striped_pool.yml
+# copy the content of deployer run_e2e_test.yml into a different file to update the test specific parameters.
+cp providers/cstor/cstor-block-device-pool/run_e2e_test.yml create_striped_pool.yml
 
 #################
 ## RUNNER MAIN ##
 #################
-echo "Running the litmus test.."
+echo "Running the e2e test.."
 
 : << EOF
   ---------------------------------------------------------------------------------------------------------------------------------------------     
  | specAttribute     | kind   |         default value                           | test specifc value                                           |
   ---------------------------------------------------------------------------------------------------------------------------------------------
- | Litmus job label  | label  | app: cstor-block-device-pool-provision          | app: cstor-striped-pool-provision                            |
- | Litmus Job name   | name   | generateName: cstor-block-device-pool-provision | generateName: cstor-block-device-striped-pool-provision      |
+ | e2e job label  | label  | app: cstor-block-device-pool-provision          | app: cstor-striped-pool-provision                            |
+ | e2e Job name   | name   | generateName: cstor-block-device-pool-provision | generateName: cstor-block-device-striped-pool-provision      |
  | ImagePullPolicy   | value  | Always                                          | IfNotPresent                                                 |
  | Pool name         | name   | cstor-block-disk-pool                           | cstor-block-disk-pool-stripe                                 |
  ---------------------------------------------------------------------------------------------------------------------------------------------
@@ -56,8 +56,9 @@ sed -i '/command:/i \
 ' create_striped_pool.yml
 
 cat create_striped_pool.yml
+rc_val=$(echo $?)
 
-bash ../script/utils/litmus_job_runner label='app:cstor-striped-pool-provision' job=create_striped_pool.yml
+bash ../script/utils/e2e_job_runner label='app:cstor-striped-pool-provision' job=create_striped_pool.yml
 bash ../script/utils/dump_cluster_state;
 cd ..
 bash script/utils/event_updater jobname:s2-j2-cstor-striped-pool $test_name jobid:"$job_id" pipelineid:"$pipeline_id"
@@ -65,12 +66,12 @@ bash script/utils/event_updater jobname:s2-j2-cstor-striped-pool $test_name jobi
 #################
 ## GET RESULT  ##
 #################
-rc_val=$(echo $?)
+#rc_val=$(echo $?)
 
-## Check the test status & result from the litmus result custom resource
+## Check the test status & result from the e2e result custom resource
 source ~/.profile
 gittoken=$(echo "$github_token")
-testResult=$(kubectl get litmusresult ${test_name} --no-headers -o custom-columns=:spec.testStatus.result)
+testResult=$(kubectl get e2eresult ${test_name} --no-headers -o custom-columns=:spec.testStatus.result)
 
 current_time=$(eval $time)
 bash script/utils/e2e-cr jobname:s2-j2-cstor-striped-pool jobphase:Completed end_time:"$current_time" jobid:"$job_id" pipelineid:"$pipeline_id" openebs_version:"$releaseTag" test_result:Pass

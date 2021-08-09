@@ -14,7 +14,7 @@ present_dir=$(pwd)
 echo $present_dir
 
 echo "Setting up test dependencies.."	
-${utils_path}/setup_dependencies litmus-test	
+${utils_path}/setup_dependencies e2e-test	
 
 bash script/utils/pooling jobname:migrate-cstor-pool
 bash script/utils/e2e-cr jobname:migrate-cstor-volume jobphase:Waiting
@@ -23,14 +23,15 @@ bash script/utils/e2e-cr jobname:migrate-cstor-volume jobphase:Running init_time
 run_id="volume";test_name=$(bash script/utils/generate_test_name testcase=cstor-cspc-csi-migration metadata=${run_id})
 echo $test_name
 
-git clone https://github.com/mayadata-io/litmus.git
-cd litmus
-echo "Running the litmus test.."
+git clone https://github.com/openebs/upgrade
+cd upgrade/e2e-tests
+echo "Running the e2e test.."
 
-cp providers/openebs/cspc_csi_migration/run_litmus_test.yml migrate-cstor-volume.yml
+cp providers/openebs/cspc_csi_migration/run_e2e_test.yml migrate-cstor-volume.yml
 
 sed -i -e '/name: MIGRATE_CSTOR_VOLUME/{n;s/.*/            value: "true"/}' \
--e '/name: MIGRATATION_IMAGE_TAG/{n;s/.*/            value: '"'$to_version'"'/}' \
+-e '/name: OPERATOR_IMAGE_TAG/{n;s/.*/            value: '"'$to_version'"'/}' \
+-e '/name: MIGRATATION_IMAGE_TAG/{n;s/.*/            value: '"'$upgrade_imageTag"'/}' \
 -e 's/app: cspc-csi-migration/app: cspc-csi-volume-migration/g' \
 -e '/name: OPERATOR_NS/{n;s/.*/            value: openebs/}' migrate-cstor-volume.yml
 
@@ -41,7 +42,7 @@ sed -i '/command:/i \
 
 cat migrate-cstor-volume.yml
 
-bash ../script/utils/litmus_job_runner label='app:cspc-csi-volume-migration' job=migrate-cstor-volume.yml
+bash ../script/utils/e2e_job_runner label='app:cspc-csi-volume-migration' job=migrate-cstor-volume.yml
 
 echo "Dumping state of cluster post job run"; echo ""
 bash ../script/utils/dump_cluster_state;
@@ -54,9 +55,9 @@ bash script/utils/event_updater jobname:migrate-cstor-volume $test_name jobid:"$
 rc_val=$(echo $?)
 kubectl get pods -n openebs -o yaml | grep image | grep -v imageID | grep quay
 
-## Check the test status & result from the litmus result custom resource
+## Check the test status & result from the e2e result custom resource
 source ~/.profile
-testResult=$(kubectl get litmusresult ${test_name} --no-headers -o custom-columns=:spec.testStatus.result)
+testResult=$(kubectl get e2eresult ${test_name} --no-headers -o custom-columns=:spec.testStatus.result)
 
 current_time=$(eval $time)
 bash script/utils/e2e-cr jobname:migrate-cstor-volume jobphase:Completed end_time:"$current_time" jobid:"$job_id" pipelineid:"$pipeline_id" openebs_version:"$releaseTag" test_result:$testResult

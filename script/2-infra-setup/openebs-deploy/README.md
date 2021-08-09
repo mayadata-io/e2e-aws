@@ -10,9 +10,9 @@ This job will deploy OpenEBS on GKE cluster and check if all the components are 
 
 #### Procedure
 
-- This job triggers a litmus experiment which installs OpenEBS components in the Konvoy cluster. By default, it creates a new namespace called OpenEBS and installs the OpenEBS objects inside that namespace.
+- This job triggers a e2e experiment which installs OpenEBS components in the Konvoy cluster. By default, it creates a new namespace called OpenEBS and installs the OpenEBS objects inside that namespace.
 - Check if all the OpenEBS components are installed using kubectl command `kubectl get pods -n openebs`
-- Finally, this job updates the litmusresult CR with the actual result.
+- Finally, this job updates the e2eresult CR with the actual result.
 
 #### Expected Result
 

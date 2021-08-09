@@ -38,18 +38,6 @@ openebs-aws-deploy:
     paths:
       - aws-openebs/
 
-openebs-sc-deploy:
-  image: harshshekhar15/gitlab-job:v6
-  stage: PROVIDER-INFRA-SETUP
-  dependencies:
-    - aws-cluster
-  script:
-   - chmod 775 ./script/2-infra-setup/storage-policies/openebs-sc
-   - ./script/2-infra-setup/storage-policies/openebs-sc
-  artifacts:
-    paths:
-      - aws-openebs/
-
 cStor-striped-pool:
   image: harshshekhar15/gitlab-job:v6
   stage: PROVIDER-INFRA-SETUP
@@ -83,12 +71,6 @@ percona-deployment-cstor:
   script:
     - chmod 775 ./script/3-functional/percona-deployment-cstor/percona-deployment-cstor
     - ./script/3-functional/percona-deployment-cstor/percona-deployment-cstor
-
-percona-deployment-localpv-device:
-  extends: .func_test_template
-  script:
-    - chmod 775 ./script/3-functional/percona-localpv-device/percona-localpv-device
-    - ./script/3-functional/percona-localpv-device/percona-localpv-device
 
 .migrate_openebs:
   image: harshshekhar15/gitlab-job:v6
@@ -149,24 +131,6 @@ percona-cstor:
   script:
     - chmod 775 ./script/5-chaos/percona-deployment-cstor
     - ./script/5-chaos/percona-deployment-cstor
-
-percona-verify-data-persistence-device:
-  extends: .chaos_test_template
-  script:
-    - chmod 775 ./script/5-chaos/percona-verify-data-persistence-device
-    - ./script/5-chaos/percona-verify-data-persistence-device
-
-percona-deploy-localpv-device:
-  extends: .chaos_test_template
-  script:
-    - chmod 775 ./script/5-chaos/percona-deployment-device
-    - ./script/5-chaos/percona-deployment-device
-
-percona-deploy-localpv-hostpath:
-  extends: .chaos_test_template
-  script:
-    - chmod 775 ./script/5-chaos/percona-deployment-hostpath
-    - ./script/5-chaos/percona-deployment-hostpath
 
 ## Deprrovision kubernets cluster
 
