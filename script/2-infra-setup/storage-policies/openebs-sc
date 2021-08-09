@@ -30,6 +30,7 @@ cd e2e-tests
 echo "Running the e2e test.."
 sed -i -e 's/imagePullPolicy: Always/imagePullPolicy: IfNotPresent/g' \
 -e 's/cstor-sparse-pool/cstor-block-disk-pool-stripe/g' providers/cstor-storage-policies/run_e2e_test.yml
+
 run_test=providers/cstor-storage-policies/run_e2e_test.yml
 
 cat $run_test
