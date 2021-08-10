@@ -7,7 +7,8 @@ job_id=$CI_JOB_ID
 pipeline_id=$CI_PIPELINE_ID
 releaseTag=$RELEASE_TAG
 from_version=$FROM_VERSION
-to_version=$RELEASE_TAG
+to_version=$TO_VERISON
+releasebranch=$RELEASE_TAG
 csi_upgrade_imageTag=$CSI_UPGRADE_IMAGE_TAG
 
 source ~/.profile
@@ -39,6 +40,7 @@ sed -i -e '/name: CSPC_POOL_UPGRADE/{n;s/.*/            value: "true"/}' \
 -e '/name: CSI_VOLUME_UPGRADE/{n;s/.*/            value: "true"/}' \
 -e '/name: FROM_VERSION/{n;s/.*/            value: '"'$from_version'"'/}' \
 -e '/name: TO_VERSION/{n;s/.*/            value: '"'$to_version'"'/}' \
+-e '/name: RELEASE_VERSION/{n;s/.*/            value: '"'$releasebranch'"'/}' \
 -e '/name: UPGRADE_IMAGE_TAG/{n;s/.*/            value: '"'$csi_upgrade_imageTag'"'/}' upgrade-cstor.yml
 
 sed -i '/command:/i \
