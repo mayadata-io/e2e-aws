@@ -7,7 +7,7 @@ job_id=$CI_JOB_ID
 pipeline_id=$CI_PIPELINE_ID
 releaseTag=$RELEASE_TAG
 from_version=$FROM_VERSION
-to_version=$TO_VERISON
+to_version=$TO_VERSION
 releasebranch=$RELEASE_TAG
 csi_upgrade_imageTag=$CSI_UPGRADE_IMAGE_TAG
 
