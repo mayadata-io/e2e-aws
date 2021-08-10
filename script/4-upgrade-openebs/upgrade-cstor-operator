@@ -7,7 +7,8 @@ job_id=$CI_JOB_ID
 pipeline_id=$CI_PIPELINE_ID
 releaseTag=$RELEASE_TAG
 from_version=$FROM_VERSION
-to_version=$RELEASE_TAG
+releasebranch=$RELEASE_TAG
+to_version=$TO_VERSION
 csi_upgrade_imageTag=$CSI_UPGRADE_IMAGE_TAG
 release_commit_id=$COMMIT_ID
 rc_tag=$RC_TAG
@@ -38,6 +39,7 @@ sed -i -e '/name: CSTOR_OPERATOR_UPGRADE/{n;s/.*/            value: "true"/}' \
 -e '/name: FROM_VERSION/{n;s/.*/            value: '"'$from_version'"'/}' \
 -e '/name: TO_VERSION/{n;s/.*/            value: '"'$to_version'"'/}' \
 -e '/name: COMMIT_ID/{n;s/.*/            value: '"'$release_commit_id'"'/}' \
+-e '/name: RELEASE_VERSION/{n;s/.*/            value: '"'$releasebranch'"'/}' \
 -e '/name: RC_TAG/{n;s/.*/            value: '"'$rc_tag'"'/}' \
 -e '/name: UPGRADE_IMAGE_TAG/{n;s/.*/            value: '"'$csi_upgrade_imageTag'"'/}' upgrade-cstor-operator.yml
 
