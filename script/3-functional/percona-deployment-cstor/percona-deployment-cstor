@@ -64,7 +64,7 @@ fi
 run_id="cstor";test_name=$(bash script/utils/generate_test_name testcase=percona-loadgen metadata=${run_id})
 echo $test_name
 
-cd upgrade/e2e-tests
+cd e2e-tests
 echo "Running the e2e test for Loadgen for percona Application..."
 cp apps/percona/workload/run_e2e_test.yml loadgen_percona_cstor.yml
 

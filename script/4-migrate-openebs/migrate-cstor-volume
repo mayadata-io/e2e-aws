@@ -27,11 +27,11 @@ git clone https://github.com/openebs/upgrade
 cd upgrade/e2e-tests
 echo "Running the e2e test.."
 
-cp providers/openebs/cspc_csi_migration/run_e2e_test.yml migrate-cstor-volume.yml
+cp experiments/cspc_csi_migration/run_e2e_test.yml migrate-cstor-volume.yml
 
 sed -i -e '/name: MIGRATE_CSTOR_VOLUME/{n;s/.*/            value: "true"/}' \
 -e '/name: OPERATOR_IMAGE_TAG/{n;s/.*/            value: '"'$to_version'"'/}' \
--e '/name: MIGRATATION_IMAGE_TAG/{n;s/.*/            value: '"'$upgrade_imageTag"'/}' \
+-e '/name: MIGRATATION_IMAGE_TAG/{n;s/.*/            value: '"'$upgrade_imageTag'"'/}' \
 -e 's/app: cspc-csi-migration/app: cspc-csi-volume-migration/g' \
 -e '/name: OPERATOR_NS/{n;s/.*/            value: openebs/}' migrate-cstor-volume.yml
 
@@ -42,12 +42,12 @@ sed -i '/command:/i \
 
 cat migrate-cstor-volume.yml
 
-bash ../script/utils/e2e_job_runner label='app:cspc-csi-volume-migration' job=migrate-cstor-volume.yml
+bash ../../script/utils/e2e_job_runner label='app:cspc-csi-volume-migration' job=migrate-cstor-volume.yml
 
 echo "Dumping state of cluster post job run"; echo ""
-bash ../script/utils/dump_cluster_state;
+bash ../../script/utils/dump_cluster_state;
 
-cd ..
+cd ../..
 bash script/utils/event_updater jobname:migrate-cstor-volume $test_name jobid:"$job_id" pipelineid:"$pipeline_id"
 #################
 ## GET RESULT  ##

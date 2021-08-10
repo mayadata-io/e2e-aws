@@ -46,15 +46,8 @@ cat ~/.kube/config > $path/aws/.kube/admin.conf
 cat ~/.kube/config > $path/aws/.kube/config
 cp -r ~/.ssh/. $path/aws/ssh
 
-# git clone https://github.com/openebs/upgrade.git
-
-# cd upgrade/e2e-tests
-# kubectl apply -f rbac.yaml
-# kubectl apply -f crds.yaml
-
 # -------------------------- Applying configmap -------------------------
 kubectl create configmap kubeconfig --from-file=$path/aws/.kube/admin.conf -n e2e
-cd ../..
 # -------------------------- Attach Disks -------------------------------
 aws_cluster_name=$(cat /tmp/aws/cluster_name.csv | cut -d ":" -f 2); echo ${aws_cluster_name}
 cd ../ebs-volumes

@@ -28,7 +28,7 @@ cd upgrade/e2e-tests
 
 echo "Running the e2e test.."
 
-cp providers/openebs/cspc_csi_migration/run_e2e_test.yml migrate-cstor-pool.yml
+cp experiments/cspc_csi_migration/run_e2e_test.yml migrate-cstor-pool.yml
 
 sed -i -e '/name: MIGRATE_SPC_POOL/{n;s/.*/            value: "true"/}' \
 -e '/name: OPERATOR_IMAGE_TAG/{n;s/.*/            value: '"'$to_version'"'/}' \
