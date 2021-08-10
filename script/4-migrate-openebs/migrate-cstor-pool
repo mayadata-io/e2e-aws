@@ -5,7 +5,7 @@ time="date"
 current_time=$(eval $time)
 job_id=$CI_JOB_ID
 pipeline_id=$CI_PIPELINE_ID
-to_version=$RELEASE_TAG
+to_version=$TO_VERSION
 upgrade_imageTag=$UPGRADE_IMAGE_TAG
 
 source ~/.profile
