@@ -31,7 +31,7 @@ cp experiments/cspc_csi_migration/run_e2e_test.yml migrate-cstor-volume.yml
 
 sed -i -e '/name: MIGRATE_CSTOR_VOLUME/{n;s/.*/            value: "true"/}' \
 -e '/name: OPERATOR_IMAGE_TAG/{n;s/.*/            value: '"'$to_version'"'/}' \
--e '/name: MIGRATATION_IMAGE_TAG/{n;s/.*/            value: '"'$upgrade_imageTag"'/}' \
+-e '/name: MIGRATATION_IMAGE_TAG/{n;s/.*/            value: '"'$upgrade_imageTag'"'/}' \
 -e 's/app: cspc-csi-migration/app: cspc-csi-volume-migration/g' \
 -e '/name: OPERATOR_NS/{n;s/.*/            value: openebs/}' migrate-cstor-volume.yml
 
