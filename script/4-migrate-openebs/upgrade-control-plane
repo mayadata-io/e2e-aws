@@ -40,6 +40,7 @@ cp experiments/openebs-provision/run_e2e_test.yml upgrade_control_plane.yml
 
 sed -i -e 's/imagePullPolicy: Always/imagePullPolicy: IfNotPresent/g' \
 -e 's/provider: openebs-runner/provider: openebs-runner-upgrade/g' \
+-e 's/name: e2e-openebs-runner/name: e2e-openebs-runner-deprovision/g' \
 -e '/name: OPENEBS_VERSION/{n;s/.*/            value: '"'$releaseTag'"'/}' \
 -e '/name: RC_TAG/{n;s/.*/            value: '"'$rc_tag'"'/}' \
 -e '/name: COMMIT_ID/{n;s/.*/            value: '"'$commit_id'"'/}' upgrade_control_plane.yml
