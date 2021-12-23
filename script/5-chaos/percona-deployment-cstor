@@ -24,8 +24,8 @@ bash script/utils/e2e-cr jobname:percona-cstor jobphase:Running init_time:"$curr
 run_id="cstor";test_name=$(bash script/utils/generate_test_name testcase=percona-deployment metadata=${run_id})
 echo $test_name
 
-git clone https://github.com/openebs/upgrade.git
-cd upgrade/e2e-tests
+git clone https://github.com/openebs/cstor-operators.git	
+cd cstor-operators/e2e-tests
 
 kubectl apply -f hack/rbac.yaml
 kubectl apply -f hack/crds.yaml
