@@ -1,5 +1,5 @@
 ---
-apiVersion: e2e.io/v1alpha1
+apiVersion: e2e.io/v1
 kind: cie2eResult
 metadata:
   # name of the e2e testcase
@@ -12,7 +12,7 @@ spec:
     start_time: <test-init>
     end_time: <test-finish>
     build_id: <openebs-id>
-    job_id: <job-id>
-    pipeline_id: <pipeline-id>
+    job_id: 001
+    pipeline_id: 000
     event:      
        
